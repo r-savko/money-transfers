@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'idea'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile group: 'org.mybatis', name: 'mybatis', version: '3.5.1'
+    compile group: 'io.dropwizard', name: 'dropwizard-core', version: '2.0.0-rc4'
+    compile group: 'io.dropwizard', name: 'dropwizard-db', version: '2.0.0-rc4'
+    compile group: 'com.h2database', name: 'h2', version: '1.4.199'
+    compile group: 'org.liquibase', name: 'liquibase-core', version: '3.6.3'
+    compile group: 'io.dropwizard', name: 'dropwizard-migrations', version: '2.0.0-rc4'
+}

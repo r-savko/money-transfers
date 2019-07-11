@@ -1,0 +1,85 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+  <preConditions>
+    <dbms type="h2"/>
+  </preConditions>
+
+  <changeSet id="Create schema" author="Roman Savko">
+    <sql>
+      DROP TABLE User;
+      DROP TABLE Currency;
+      DROP TABLE Account;
+      DROP TABLE ExchangeRate;
+      DROP TABLE Transaction;
+
+      CREATE TABLE User
+      (
+        user_id bigint NOT NULL AUTO_INCREMENT ,
+        name    varchar(45) NOT NULL ,
+        surname varchar(45) NOT NULL ,
+
+        PRIMARY KEY (user_id)
+      );
+
+      CREATE TABLE Currency
+      (
+        currency_id bigint NOT NULL AUTO_INCREMENT ,
+        name        varchar(5) NOT NULL ,
+
+        PRIMARY KEY (currency_id)
+      );
+
+      CREATE TABLE Account
+      (
+        account_id     bigint NOT NULL AUTO_INCREMENT ,
+        user_id        bigint NOT NULL ,
+        account_number varchar(100) NOT NULL ,
+        balance        decimal NOT NULL ,
+        currency_id    bigint NOT NULL ,
+
+        PRIMARY KEY (account_id),
+        FOREIGN KEY (user_id) REFERENCES User (user_id),
+        FOREIGN KEY (currency_id) REFERENCES Currency (currency_id)
+      );
+
+
+      CREATE TABLE ExchangeRate
+      (
+        exchange_rate_id  bigint NOT NULL AUTO_INCREMENT,
+        currency_from     bigint NOT NULL ,
+        currency_to       bigint NOT NULL ,
+        rate              decimal NOT NULL ,
+
+        PRIMARY KEY (exchange_rate_id),
+        FOREIGN KEY (currency_from) REFERENCES Currency (currency_id),
+        FOREIGN KEY (currency_to) REFERENCES Currency (currency_id)
+      );
+
+
+      CREATE TABLE Transaction
+      (
+        transaction_id bigint NOT NULL AUTO_INCREMENT ,
+        from_account   bigint NOT NULL ,
+        to_account     bigint NOT NULL ,
+        amount         decimal NOT NULL ,
+        transfer_date  datetime NOT NULL ,
+
+        PRIMARY KEY (transaction_id),
+        FOREIGN KEY (from_account) REFERENCES Account (account_id),
+        FOREIGN KEY (to_account) REFERENCES Account (account_id)
+      );
+
+    </sql>
+
+  </changeSet>
+
+  <changeSet id="Fill schema" author="Roman Savko">
+    <sql>
+      insert into User(name,surname) values('Roman', 'Savko');
+    </sql>
+  </changeSet>
+
+</databaseChangeLog>
