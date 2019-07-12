@@ -9,22 +9,24 @@ public class ExchangeRateRepository extends AbstractRepository<ExchangeRateRepos
     }
 
     @Override
-    public Long persist(ExchangeRateRepository entity) {
+    public ExchangeRateRepository create(ExchangeRateRepository entity) {
         return null;
     }
 
     @Override
-    public ExchangeRateRepository find(Long id) {
+    public ExchangeRateRepository read(Long id) {
         return null;
     }
 
     @Override
-    public Long update(ExchangeRateRepository entity) {
-        return null;
+    public void update(ExchangeRateRepository entity) {
+
     }
 
     @Override
-    public Long delete(Long id) {
-        return null;
+    public void delete(ExchangeRateRepository entity) {
+
     }
+
+
 }

@@ -1,29 +1,28 @@
 package com.revolut.money.transfer.resource;
 
-import com.revolut.money.transfer.db.entity.User;
-import com.revolut.money.transfer.db.repository.UserRepository;
-import com.revolut.money.transfer.model.UserResponse;
+import com.revolut.money.transfer.model.User;
+import com.revolut.money.transfer.service.UserService;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 @Path("/user")
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
-    private UserRepository userRepository;
+    private UserService userService;
 
-    public UserResource(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserResource(UserService userService) {
+        this.userService = userService;
     }
 
     @GET
-    public UserResponse getUser(@QueryParam("id") Long id) {
-        User user =  userRepository.find(id);
-        return new UserResponse().setName(user.getName()).setSurname(user.getSurname());
+    @Path("/{userId}")
+    public User getUser(@PathParam("userId") Long userId) {
+        return userService.findUser(userId);
     }
 
 }

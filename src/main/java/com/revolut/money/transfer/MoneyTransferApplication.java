@@ -2,7 +2,6 @@ package com.revolut.money.transfer;
 
 import com.revolut.money.transfer.bundle.MigrateOnStartupBundle;
 import com.revolut.money.transfer.configuration.ApplicationConfiguration;
-import com.revolut.money.transfer.db.entity.ExchangeRate;
 import com.revolut.money.transfer.db.repository.AccountRepository;
 import com.revolut.money.transfer.db.repository.ExchangeRateRepository;
 import com.revolut.money.transfer.db.repository.TransactionRepository;
@@ -10,9 +9,11 @@ import com.revolut.money.transfer.db.repository.UserRepository;
 import com.revolut.money.transfer.db.util.DbMigrationConstants;
 import com.revolut.money.transfer.db.util.SessionFactoryUtils;
 import com.revolut.money.transfer.healthcheck.DatabaseHealthCheck;
-import com.revolut.money.transfer.resource.AccountResponse;
+import com.revolut.money.transfer.resource.AccountResource;
 import com.revolut.money.transfer.resource.TransferResource;
 import com.revolut.money.transfer.resource.UserResource;
+import com.revolut.money.transfer.service.AccountService;
+import com.revolut.money.transfer.service.UserService;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.db.ManagedDataSource;
@@ -62,12 +63,16 @@ public class MoneyTransferApplication extends Application<ApplicationConfigurati
         AccountRepository accountRepository = new AccountRepository(sessionManager);
         ExchangeRateRepository exchangeRateRepository = new ExchangeRateRepository(sessionManager);
 
+        //Init services
+        UserService userService = new UserService(userRepository);
+        AccountService accountService = new AccountService(accountRepository);
+
         //Register health checks
         environment.healthChecks().register("Database heals check", new DatabaseHealthCheck());
 
         //Register resources
-        environment.jersey().register(new UserResource(userRepository));
+        environment.jersey().register(new UserResource(userService));
         environment.jersey().register(new TransferResource());
-        environment.jersey().register(new AccountResponse());
+        environment.jersey().register(new AccountResource(accountService));
     }
 }

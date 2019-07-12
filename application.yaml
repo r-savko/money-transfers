@@ -11,4 +11,4 @@ database:
   password: sa
 
   # the JDBC URL
-  url: jdbc:h2:./money/transfer
+  url: jdbc:h2:./db/transfer

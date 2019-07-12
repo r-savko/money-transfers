@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.revolut.money.transfer.db.mapper.AccountMapper">
+
+    <select id="read" parameterType="long" resultType="com.revolut.money.transfer.model.Account"
+            resultMap="findAccountResultMap">
+        SELECT a.account_id, a.user_id, a.account_number, a.balance, c.currency_id, c.name FROM account as a
+        JOIN currency as c ON a.currency_id = c.currency_id  WHERE user_id = #{id}
+    </select>
+
+    <resultMap id="findAccountResultMap" type="com.revolut.money.transfer.model.Account">
+        <id property="accountId" column="account_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="accountNumber" column="account_number"/>
+        <result property="balance" column="balance"/>
+        <association property="currency" column="currency_id" javaType="com.revolut.money.transfer.model.Currency">
+            <id property="currencyId" column="currency_id"/>
+            <result property="name" column="name"/>
+        </association>
+    </resultMap>
+
+</mapper>

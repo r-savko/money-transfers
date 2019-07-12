@@ -1,7 +1,5 @@
 package com.revolut.money.transfer.db.util;
 
-import javax.sql.DataSource;
-
 import com.revolut.money.transfer.db.mapper.PingMapper;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
@@ -9,6 +7,8 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.session.SqlSessionManager;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
+
+import javax.sql.DataSource;
 
 public final class SessionFactoryUtils {
 

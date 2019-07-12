@@ -1,6 +1,6 @@
 package com.revolut.money.transfer.db.repository;
 
-import com.revolut.money.transfer.db.entity.Account;
+import com.revolut.money.transfer.model.Account;
 import org.apache.ibatis.session.SqlSessionManager;
 
 public class AccountRepository extends AbstractRepository<Account, Long> {
@@ -10,22 +10,24 @@ public class AccountRepository extends AbstractRepository<Account, Long> {
     }
 
     @Override
-    public Long persist(Account entity) {
+    public Account create(Account entity) {
         return null;
     }
 
     @Override
-    public Account find(Long id) {
+    public Account read(Long id) {
         return null;
     }
 
     @Override
-    public Long update(Account entity) {
-        return null;
+    public void update(Account entity) {
+
     }
 
     @Override
-    public Long delete(Long id) {
-        return null;
+    public void delete(Account entity) {
+
     }
+
+
 }

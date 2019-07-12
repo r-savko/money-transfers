@@ -9,22 +9,24 @@ public class TransactionRepository extends AbstractRepository<TransactionReposit
     }
 
     @Override
-    public Long persist(TransactionRepository entity) {
+    public TransactionRepository create(TransactionRepository entity) {
         return null;
     }
 
     @Override
-    public TransactionRepository find(Long id) {
+    public TransactionRepository read(Long id) {
         return null;
     }
 
     @Override
-    public Long update(TransactionRepository entity) {
-        return null;
+    public void update(TransactionRepository entity) {
+
     }
 
     @Override
-    public Long delete(Long id) {
-        return null;
+    public void delete(TransactionRepository entity) {
+
     }
+
+
 }

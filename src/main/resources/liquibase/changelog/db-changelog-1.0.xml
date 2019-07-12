@@ -9,11 +9,11 @@
 
   <changeSet id="Create schema" author="Roman Savko">
     <sql>
-      DROP TABLE User;
-      DROP TABLE Currency;
-      DROP TABLE Account;
-      DROP TABLE ExchangeRate;
-      DROP TABLE Transaction;
+      DROP TABLE IF EXISTS User;
+      DROP TABLE IF EXISTS Currency;
+      DROP TABLE IF EXISTS Account;
+      DROP TABLE IF EXISTS ExchangeRate;
+      DROP TABLE IF EXISTS Transaction;
 
       CREATE TABLE User
       (
@@ -76,9 +76,26 @@
 
   </changeSet>
 
-  <changeSet id="Fill schema" author="Roman Savko">
+  <changeSet id="Fill users" author="Roman Savko">
     <sql>
-      insert into User(name,surname) values('Roman', 'Savko');
+      insert into User(name, surname) values('Otto', 'Octavius');
+      insert into User(name, surname) values('Bruce', 'Banner');
+      insert into User(name, surname) values('Peter', 'Parker');
+    </sql>
+  </changeSet>
+
+  <changeSet id="Fill currencies" author="Roman Savko">
+    <sql>
+      insert into Currency(name) values('USD');
+      insert into Currency(name) values('EUR');
+    </sql>
+  </changeSet>
+
+  <changeSet id="Fill accounts" author="Roman Savko">
+    <sql>
+      insert into Account(user_id, account_number, balance, currency_id) values(1, 'GB29 NWBK 6016 1331 9268 19', 1500, 1);
+      insert into Account(user_id, account_number, balance, currency_id) values(2, 'DE89 3704 0044 0532 0130 00', 2500, 1);
+      insert into Account(user_id, account_number, balance, currency_id) values(3, 'SE45 5000 0000 0583 9825 7466', 2000, 2);
     </sql>
   </changeSet>
 

@@ -1,7 +1,7 @@
 package com.revolut.money.transfer.db.repository;
 
-import com.revolut.money.transfer.db.entity.User;
 import com.revolut.money.transfer.db.mapper.UserMapper;
+import com.revolut.money.transfer.model.User;
 import org.apache.ibatis.session.SqlSessionManager;
 
 public class UserRepository extends AbstractRepository<User, Long> {
@@ -11,23 +11,23 @@ public class UserRepository extends AbstractRepository<User, Long> {
     }
 
     @Override
-    public Long persist(User entity) {
-        return sessionManager.getMapper(UserMapper.class).persist(entity);
+    public User create(User user) {
+        return sessionManager.getMapper(UserMapper.class).create(user);
     }
 
     @Override
-    public User find(Long id) {
-        return sessionManager.getMapper(UserMapper.class).find(id);
+    public User read(Long id) {
+        return sessionManager.getMapper(UserMapper.class).read(id);
     }
 
     @Override
-    public Long update(User entity) {
-        return sessionManager.getMapper(UserMapper.class).update(entity);
+    public void update(User user) {
+        sessionManager.getMapper(UserMapper.class).update(user);
     }
 
     @Override
-    public Long delete(Long id) {
-        return sessionManager.getMapper(UserMapper.class).delete(id);
+    public void delete(User user) {
+         sessionManager.getMapper(UserMapper.class).delete(user);
     }
 
 }

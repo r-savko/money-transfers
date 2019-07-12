@@ -1,17 +1,17 @@
-package com.revolut.money.transfer.db.entity;
+package com.revolut.money.transfer.model;
 
 public class User {
 
-    private long id;
+    private long userId;
     private String name;
     private String surname;
 
-    public long getId() {
-        return id;
+    public long getUserId() {
+        return userId;
     }
 
-    public User setId(long id) {
-        this.id = id;
+    public User setUserId(long userId) {
+        this.userId = userId;
         return this;
     }
 
