@@ -16,7 +16,8 @@ dependencies {
     compile group: 'org.liquibase', name: 'liquibase-core', version: '3.6.3'
     compile group: 'io.dropwizard', name: 'dropwizard-migrations', version: '2.0.0-rc4'
     compile group: 'com.smoketurner', name: 'dropwizard-swagger', version: '1.3.12-1'
-    // https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava
-    compile group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.2.10'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.12.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.12.0'
+
 
 }

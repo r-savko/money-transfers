@@ -4,8 +4,8 @@
 
 <mapper namespace="com.revolut.money.transfer.db.mapper.ExchangeRateMapper">
     <select id="getExchangeRate" parameterType="long" resultType="com.revolut.money.transfer.model.User" resultMap="exchangeRateResultMap">
-        SELECT exchange_rate_id, currency_from, currency_to, rate FROM ExchangeRate
-        WHERE currency_from = #{param1} AND currency_to = #{param2}
+        select exchange_rate_id, currency_from, currency_to, rate from exchangerate
+        where currency_from = #{param1} and currency_to = #{param2}
     </select>
 
     <resultMap id="exchangeRateResultMap" type="com.revolut.money.transfer.model.ExchangeRate">

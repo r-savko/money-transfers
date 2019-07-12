@@ -10,6 +10,9 @@ import javax.validation.constraints.NotNull;
 
 public class ApplicationConfiguration extends Configuration {
 
+    @JsonProperty("swagger")
+    public SwaggerBundleConfiguration swaggerBundleConfiguration;
+
     @Valid
     @NotNull
     private DataSourceFactory database = new DataSourceFactory();
@@ -23,7 +26,4 @@ public class ApplicationConfiguration extends Configuration {
         this.database = database;
         return this;
     }
-
-    @JsonProperty("swagger")
-    public SwaggerBundleConfiguration swaggerBundleConfiguration;
 }

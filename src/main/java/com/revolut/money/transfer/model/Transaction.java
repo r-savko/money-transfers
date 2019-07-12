@@ -10,6 +10,7 @@ public class Transaction {
     private Long toAccountId;
     private BigDecimal amount;
     private Date transferDate;
+    private TransactionStatus status;
 
     public Long getTransactionId() {
         return transactionId;
@@ -55,4 +56,13 @@ public class Transaction {
         this.transferDate = transferDate;
         return this;
     }
-};
+
+    public TransactionStatus getStatus() {
+        return status;
+    }
+
+    public Transaction setStatus(TransactionStatus status) {
+        this.status = status;
+        return this;
+    }
+}

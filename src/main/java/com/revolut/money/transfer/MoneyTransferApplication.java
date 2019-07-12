@@ -21,13 +21,9 @@ import io.dropwizard.db.ManagedDataSource;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import io.federecio.dropwizard.sample.SampleConfiguration;
 import io.federecio.dropwizard.swagger.SwaggerBundle;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
-import io.reactivex.Observable;
 import org.apache.ibatis.session.SqlSessionManager;
-
-import java.util.function.Supplier;
 
 public class MoneyTransferApplication extends Application<ApplicationConfiguration> {
 

@@ -66,6 +66,7 @@
         to_account     bigint NOT NULL ,
         amount         decimal NOT NULL ,
         transfer_date  datetime NOT NULL ,
+        status         varchar(25) NOT NULL,
 
         PRIMARY KEY (transaction_id),
         FOREIGN KEY (from_account) REFERENCES Account (account_id),

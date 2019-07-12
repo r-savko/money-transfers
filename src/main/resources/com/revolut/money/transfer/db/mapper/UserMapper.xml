@@ -4,7 +4,7 @@
 
 <mapper namespace="com.revolut.money.transfer.db.mapper.UserMapper">
     <select id="read" parameterType="long" resultType="com.revolut.money.transfer.model.User" resultMap="userResultMap">
-        SELECT user_id, name, surname FROM user WHERE user_id = #{id}
+        select user_id, name, surname from user where user_id = #{id}
     </select>
 
     <resultMap id="userResultMap" type="com.revolut.money.transfer.model.User">

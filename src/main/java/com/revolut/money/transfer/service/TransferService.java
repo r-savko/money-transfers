@@ -7,11 +7,11 @@ import com.revolut.money.transfer.db.util.TransactionUtils;
 import com.revolut.money.transfer.model.Account;
 import com.revolut.money.transfer.model.ExchangeRate;
 import com.revolut.money.transfer.model.Transaction;
+import com.revolut.money.transfer.model.TransactionStatus;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.Observable;
 
 public class TransferService {
 
@@ -29,6 +29,11 @@ public class TransferService {
 
     public Transaction transfer(Long accountIdFrom, Long accountIdTo, BigDecimal amount) {
 
+        Transaction transaction = new Transaction().setAmount(amount)
+                .setFromAccountId(accountIdFrom)
+                .setToAccountId(accountIdTo)
+                .setTransferDate(new Date());
+
         return TransactionUtils.runInTransaction(() -> {
 
             Account accountFrom = accountRepository.readForUpdate(accountIdFrom);
@@ -36,21 +41,21 @@ public class TransferService {
 
             BigDecimal ratedAmount = applyRates(accountFrom, accountTo, amount);
 
-            accountFrom.setBalance(accountFrom.getBalance().subtract(ratedAmount));
+            accountFrom.setBalance(accountFrom.getBalance().subtract(amount));
             accountTo.setBalance(accountTo.getBalance().add(ratedAmount));
 
-            Transaction transaction = new Transaction().setAmount(ratedAmount)
-                    .setFromAccountId(accountIdFrom)
-                    .setToAccountId(accountIdTo)
-                    .setTransferDate(new Date());
+            transaction.setStatus(TransactionStatus.COMPLETED);
 
             transactionRepository.create(transaction);
-
+            return transaction;
+        }).orElseGet(() -> {
+            transaction.setStatus(TransactionStatus.FAILED);
+            transactionRepository.create(transaction);
             return transaction;
         });
     }
 
-    private BigDecimal applyRates(Account from, Account to, BigDecimal amount){
+    private BigDecimal applyRates(Account from, Account to, BigDecimal amount) {
         Long fromCurrencyId = from.getCurrency().getCurrencyId();
         Long toCurrencyId = to.getCurrency().getCurrencyId();
         if (!fromCurrencyId.equals(toCurrencyId)) {
@@ -58,6 +63,10 @@ public class TransferService {
             return amount.multiply(rate.getRate());
         }
         return amount;
+    }
+
+    public List<Transaction> getAllTransactions(){
+        return transactionRepository.readAll();
     }
 
 }

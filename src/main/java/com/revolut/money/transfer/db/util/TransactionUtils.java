@@ -1,25 +1,30 @@
 package com.revolut.money.transfer.db.util;
 
 import org.apache.ibatis.session.SqlSessionManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.internal.util.Producer;
 
-import java.util.function.Predicate;
+import java.util.Optional;
 
 public final class TransactionUtils {
 
+    private static final Logger log = LogManager.getLogger(TransactionUtils.class);
+
     private static SqlSessionManager sqlSessionManager;
 
-    public static  <T> T runInTransaction(Producer<T> producer) {
+    public static <T> Optional<T> runInTransaction(Producer<T> producer) {
         beforeStart();
         T result;
         try {
             result = producer.call();
         } catch (Exception e) {
             onError();
-            throw new RuntimeException("Unable to execute logic in transaction", e);
+            log.error("Unable to execute logic in transaction", e);
+            return Optional.empty();
         }
         afterEnd();
-        return result;
+        return Optional.of(result);
 
     }
 
@@ -43,10 +48,6 @@ public final class TransactionUtils {
         } finally {
             onFinish();
         }
-    }
-
-    public static final void onException(Predicate runnable){
-
     }
 
     private static void onFinish() {

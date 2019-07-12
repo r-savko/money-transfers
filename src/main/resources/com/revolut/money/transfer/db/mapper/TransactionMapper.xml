@@ -6,8 +6,21 @@
 
     <insert id="create"  parameterType="com.revolut.money.transfer.model.Transaction" useGeneratedKeys="true"
             keyProperty="transactionId" keyColumn="transaction_id">
-        Insert into transaction(from_account,to_account,amount,transfer_date)
-        values (#{fromAccountId}, #{toAccountId}, #{amount}, #{transferDate})
+        insert into transaction(from_account, to_account, amount, transfer_date, status)
+        values (#{fromAccountId}, #{toAccountId}, #{amount}, #{transferDate}, #{status})
     </insert>
+
+    <select id="readAll" resultType="java.util.List" resultMap="transactionResultMap">
+        select transaction_id, from_account, to_account, amount, transfer_date, status from transaction
+    </select>
+
+    <resultMap id="transactionResultMap" type="com.revolut.money.transfer.model.Transaction">
+        <id property="transactionId" column="transaction_id"/>
+        <result property="fromAccountId" column="from_account"/>
+        <result property="toAccountId" column="to_account"/>
+        <result property="amount" column="from_account"/>
+        <result property="transferDate" column="transfer_date"/>
+        <result property="status" column="status"/>
+    </resultMap>
 
 </mapper>

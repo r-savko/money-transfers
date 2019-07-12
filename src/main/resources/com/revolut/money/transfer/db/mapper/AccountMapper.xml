@@ -6,20 +6,20 @@
 
     <select id="read" parameterType="long" resultType="com.revolut.money.transfer.model.Account"
             resultMap="findAccountResultMap">
-        SELECT a.account_id, a.user_id, a.account_number, a.balance, c.currency_id, c.currency_code FROM account as a
-        JOIN currency as c ON a.currency_id = c.currency_id  WHERE user_id = #{id}
+        select a.account_id, a.user_id, a.account_number, a.balance, c.currency_id, c.currency_code from account as a
+        join currency as c on a.currency_id = c.currency_id  where user_id = #{id}
     </select>
 
     <select id="readAll" parameterType="long" resultType="com.revolut.money.transfer.model.Account"
             resultMap="findAccountResultMap">
-        SELECT a.account_id, a.user_id, a.account_number, a.balance, c.currency_id, c.currency_code FROM account as a
-        JOIN currency as c ON a.currency_id = c.currency_id
+        select a.account_id, a.user_id, a.account_number, a.balance, c.currency_id, c.currency_code from account as a
+        join currency as c on a.currency_id = c.currency_id
     </select>
 
     <select id="readForUpdate" parameterType="long" resultType="java.util.List"
             resultMap="findAccountResultMap">
-        SELECT a.account_id, a.user_id, a.account_number, a.balance, c.currency_id, c.currency_code FROM account as a
-        JOIN currency as c ON a.currency_id = c.currency_id  WHERE user_id = #{id} FOR UPDATE
+        select a.account_id, a.user_id, a.account_number, a.balance, c.currency_id, c.currency_code from account as a
+        join currency as c on a.currency_id = c.currency_id  where user_id = #{id} for update
     </select>
 
     <resultMap id="findAccountResultMap" type="com.revolut.money.transfer.model.Account">

@@ -11,8 +11,8 @@ public class ExchangeRateRepository extends AbstractRepository<ExchangeRateRepos
     }
 
     @Override
-    public Long create(ExchangeRateRepository entity) {
-        return null;
+    public void create(ExchangeRateRepository entity) {
+
     }
 
     @Override

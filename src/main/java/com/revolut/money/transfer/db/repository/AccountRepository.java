@@ -13,8 +13,7 @@ public class AccountRepository extends AbstractRepository<Account, Long> {
     }
 
     @Override
-    public Long create(Account entity) {
-        return null;
+    public void create(Account entity) {
     }
 
     @Override
