@@ -2,13 +2,14 @@ package com.revolut.money.transfer.db.mapper;
 
 import java.io.Serializable;
 
-public interface EntityMapper<T> {
+public interface EntityMapper<T, N> {
 
-    T create(T entity) ;
+    N create(T entity) ;
 
     T read(Serializable primaryKey);
 
     void update(T entity) ;
 
     void delete(T entity);
+
 }

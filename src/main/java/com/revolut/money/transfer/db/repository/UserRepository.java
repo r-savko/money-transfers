@@ -11,7 +11,7 @@ public class UserRepository extends AbstractRepository<User, Long> {
     }
 
     @Override
-    public User create(User user) {
+    public Long create(User user) {
         return sessionManager.getMapper(UserMapper.class).create(user);
     }
 

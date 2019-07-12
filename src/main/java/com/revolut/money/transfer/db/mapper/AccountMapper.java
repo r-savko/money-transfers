@@ -2,6 +2,13 @@ package com.revolut.money.transfer.db.mapper;
 
 import com.revolut.money.transfer.model.Account;
 
-public interface AccountMapper extends EntityMapper<Account>{
+import java.io.Serializable;
+import java.util.List;
+
+public interface AccountMapper extends EntityMapper<Account, Long>{
+
+    Account readForUpdate(Serializable primaryKey);
+
+    List<Account> readAll();
 
 }

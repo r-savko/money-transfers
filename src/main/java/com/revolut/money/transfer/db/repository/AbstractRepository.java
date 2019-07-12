@@ -10,7 +10,7 @@ public abstract class AbstractRepository<T, N extends Number> {
         this.sessionManager = sessionManager;
     }
 
-    public abstract T create(T entity);
+    public abstract N create(T entity);
 
     public abstract T read(N id);
 

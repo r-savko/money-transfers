@@ -2,6 +2,7 @@ package com.revolut.money.transfer.resource;
 
 import com.revolut.money.transfer.model.User;
 import com.revolut.money.transfer.service.UserService;
+import io.swagger.annotations.Api;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -10,6 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Path("/user")
+@Api("/user")
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 

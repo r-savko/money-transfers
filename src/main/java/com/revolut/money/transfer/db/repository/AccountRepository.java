@@ -1,7 +1,10 @@
 package com.revolut.money.transfer.db.repository;
 
+import com.revolut.money.transfer.db.mapper.AccountMapper;
 import com.revolut.money.transfer.model.Account;
 import org.apache.ibatis.session.SqlSessionManager;
+
+import java.util.List;
 
 public class AccountRepository extends AbstractRepository<Account, Long> {
 
@@ -10,13 +13,21 @@ public class AccountRepository extends AbstractRepository<Account, Long> {
     }
 
     @Override
-    public Account create(Account entity) {
+    public Long create(Account entity) {
         return null;
     }
 
     @Override
     public Account read(Long id) {
-        return null;
+        return sessionManager.getMapper(AccountMapper.class).read(id);
+    }
+
+    public List<Account> readAll() {
+        return sessionManager.getMapper(AccountMapper.class).readAll();
+    }
+
+    public Account readForUpdate(Long id) {
+        return sessionManager.getMapper(AccountMapper.class).readForUpdate(id);
     }
 
     @Override

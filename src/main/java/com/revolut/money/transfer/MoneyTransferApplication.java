@@ -13,6 +13,7 @@ import com.revolut.money.transfer.resource.AccountResource;
 import com.revolut.money.transfer.resource.TransferResource;
 import com.revolut.money.transfer.resource.UserResource;
 import com.revolut.money.transfer.service.AccountService;
+import com.revolut.money.transfer.service.TransferService;
 import com.revolut.money.transfer.service.UserService;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
@@ -20,7 +21,13 @@ import io.dropwizard.db.ManagedDataSource;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import io.federecio.dropwizard.sample.SampleConfiguration;
+import io.federecio.dropwizard.swagger.SwaggerBundle;
+import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
+import io.reactivex.Observable;
 import org.apache.ibatis.session.SqlSessionManager;
+
+import java.util.function.Supplier;
 
 public class MoneyTransferApplication extends Application<ApplicationConfiguration> {
 
@@ -47,6 +54,13 @@ public class MoneyTransferApplication extends Application<ApplicationConfigurati
         super.initialize(bootstrap);
         bootstrap.addBundle(migrationsBundle);
         bootstrap.addBundle(migrateOnStartupBundle);
+        bootstrap.addBundle(new SwaggerBundle<>() {
+            @Override
+            protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(ApplicationConfiguration configuration) {
+                // this would be the preferred way to set up swagger, you can also construct the object here programtically if you want
+                return configuration.swaggerBundleConfiguration;
+            }
+        });
     }
 
     @Override
@@ -66,13 +80,14 @@ public class MoneyTransferApplication extends Application<ApplicationConfigurati
         //Init services
         UserService userService = new UserService(userRepository);
         AccountService accountService = new AccountService(accountRepository);
+        TransferService transferService = new TransferService(transactionRepository, accountRepository, exchangeRateRepository);
 
         //Register health checks
         environment.healthChecks().register("Database heals check", new DatabaseHealthCheck());
 
         //Register resources
         environment.jersey().register(new UserResource(userService));
-        environment.jersey().register(new TransferResource());
+        environment.jersey().register(new TransferResource(transferService));
         environment.jersey().register(new AccountResource(accountService));
     }
 }

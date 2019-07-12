@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.revolut.money.transfer.db.mapper.TransactionMapper">
+
+    <insert id="create"  parameterType="com.revolut.money.transfer.model.Transaction" useGeneratedKeys="true"
+            keyProperty="transactionId" keyColumn="transaction_id">
+        Insert into transaction(from_account,to_account,amount,transfer_date)
+        values (#{fromAccountId}, #{toAccountId}, #{amount}, #{transferDate})
+    </insert>
+
+</mapper>

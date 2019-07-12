@@ -6,8 +6,20 @@
 
     <select id="read" parameterType="long" resultType="com.revolut.money.transfer.model.Account"
             resultMap="findAccountResultMap">
-        SELECT a.account_id, a.user_id, a.account_number, a.balance, c.currency_id, c.name FROM account as a
+        SELECT a.account_id, a.user_id, a.account_number, a.balance, c.currency_id, c.currency_code FROM account as a
         JOIN currency as c ON a.currency_id = c.currency_id  WHERE user_id = #{id}
+    </select>
+
+    <select id="readAll" parameterType="long" resultType="com.revolut.money.transfer.model.Account"
+            resultMap="findAccountResultMap">
+        SELECT a.account_id, a.user_id, a.account_number, a.balance, c.currency_id, c.currency_code FROM account as a
+        JOIN currency as c ON a.currency_id = c.currency_id
+    </select>
+
+    <select id="readForUpdate" parameterType="long" resultType="java.util.List"
+            resultMap="findAccountResultMap">
+        SELECT a.account_id, a.user_id, a.account_number, a.balance, c.currency_id, c.currency_code FROM account as a
+        JOIN currency as c ON a.currency_id = c.currency_id  WHERE user_id = #{id} FOR UPDATE
     </select>
 
     <resultMap id="findAccountResultMap" type="com.revolut.money.transfer.model.Account">
@@ -17,7 +29,7 @@
         <result property="balance" column="balance"/>
         <association property="currency" column="currency_id" javaType="com.revolut.money.transfer.model.Currency">
             <id property="currencyId" column="currency_id"/>
-            <result property="name" column="name"/>
+            <result property="currencyCode" column="currency_code"/>
         </association>
     </resultMap>
 

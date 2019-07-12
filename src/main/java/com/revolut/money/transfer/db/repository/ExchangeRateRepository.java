@@ -1,5 +1,7 @@
 package com.revolut.money.transfer.db.repository;
 
+import com.revolut.money.transfer.db.mapper.ExchangeRateMapper;
+import com.revolut.money.transfer.model.ExchangeRate;
 import org.apache.ibatis.session.SqlSessionManager;
 
 public class ExchangeRateRepository extends AbstractRepository<ExchangeRateRepository, Long> {
@@ -9,7 +11,7 @@ public class ExchangeRateRepository extends AbstractRepository<ExchangeRateRepos
     }
 
     @Override
-    public ExchangeRateRepository create(ExchangeRateRepository entity) {
+    public Long create(ExchangeRateRepository entity) {
         return null;
     }
 
@@ -26,6 +28,10 @@ public class ExchangeRateRepository extends AbstractRepository<ExchangeRateRepos
     @Override
     public void delete(ExchangeRateRepository entity) {
 
+    }
+
+    public ExchangeRate getExchangeRate(Long currencyIdFrom, Long currencyIdTo) {
+        return sessionManager.getMapper(ExchangeRateMapper.class).getExchangeRate(currencyIdFrom, currencyIdTo);
     }
 
 
