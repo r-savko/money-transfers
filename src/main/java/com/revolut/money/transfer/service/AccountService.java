@@ -2,6 +2,7 @@ package com.revolut.money.transfer.service;
 
 import com.revolut.money.transfer.db.repository.AccountRepository;
 import com.revolut.money.transfer.db.repository.CurrencyRepository;
+import com.revolut.money.transfer.exception.GenericApplicationException;
 import com.revolut.money.transfer.exception.NotFoundException;
 import com.revolut.money.transfer.model.Account;
 import com.revolut.money.transfer.model.Currency;
@@ -28,7 +29,7 @@ public class AccountService {
 
     public Account createAccount(Long userId, String currencyCode, String accountNumber) {
         Currency currency = currencyRepository.readByCurrencyCode(currencyCode.trim())
-                .orElseThrow(() -> new RuntimeException("Unable to find currency with code " + currencyCode));
+                .orElseThrow(() -> new GenericApplicationException("Unable to find currency with code " + currencyCode));
 
         Account account = new Account().setBalance(BigDecimal.ZERO).setUserId(userId)
                 .setCurrency(currency).setAccountNumber(accountNumber);

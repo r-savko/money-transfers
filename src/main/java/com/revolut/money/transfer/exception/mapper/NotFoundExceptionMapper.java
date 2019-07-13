@@ -22,7 +22,7 @@ public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundExceptio
         return Response
                 .serverError()
                 .status(HttpStatus.NOT_FOUND_404)
-                .entity(new ErrorResponse(exception.getMessage()))
+                .entity(new ErrorResponse(HttpStatus.NOT_FOUND_404, exception.getMessage()))
                 .build();
     }
 }

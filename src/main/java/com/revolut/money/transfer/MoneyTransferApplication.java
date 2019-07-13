@@ -5,8 +5,8 @@ import com.revolut.money.transfer.configuration.ApplicationConfiguration;
 import com.revolut.money.transfer.db.repository.*;
 import com.revolut.money.transfer.db.util.DbMigrationConstants;
 import com.revolut.money.transfer.db.util.SessionFactoryUtils;
+import com.revolut.money.transfer.exception.mapper.GenericApplicationExceptionMapper;
 import com.revolut.money.transfer.exception.mapper.NotFoundExceptionMapper;
-import com.revolut.money.transfer.exception.mapper.RuntimeExceptionMapper;
 import com.revolut.money.transfer.healthcheck.DatabaseHealthCheck;
 import com.revolut.money.transfer.resource.AccountResource;
 import com.revolut.money.transfer.resource.TransferResource;
@@ -85,7 +85,7 @@ public class MoneyTransferApplication extends Application<ApplicationConfigurati
         environment.jersey().register(new UserResource(userService, accountService, transferService));
         environment.jersey().register(new TransferResource(transferService));
         environment.jersey().register(new AccountResource(accountService));
-        environment.jersey().register(new RuntimeExceptionMapper());
+        environment.jersey().register(new GenericApplicationExceptionMapper());
         environment.jersey().register(new NotFoundExceptionMapper());
     }
 }
