@@ -2,12 +2,11 @@ package com.revolut.money.transfer;
 
 import com.revolut.money.transfer.bundle.MigrateOnStartupBundle;
 import com.revolut.money.transfer.configuration.ApplicationConfiguration;
-import com.revolut.money.transfer.db.repository.AccountRepository;
-import com.revolut.money.transfer.db.repository.ExchangeRateRepository;
-import com.revolut.money.transfer.db.repository.TransactionRepository;
-import com.revolut.money.transfer.db.repository.UserRepository;
+import com.revolut.money.transfer.db.repository.*;
 import com.revolut.money.transfer.db.util.DbMigrationConstants;
 import com.revolut.money.transfer.db.util.SessionFactoryUtils;
+import com.revolut.money.transfer.exception.mapper.NotFoundExceptionMapper;
+import com.revolut.money.transfer.exception.mapper.RuntimeExceptionMapper;
 import com.revolut.money.transfer.healthcheck.DatabaseHealthCheck;
 import com.revolut.money.transfer.resource.AccountResource;
 import com.revolut.money.transfer.resource.TransferResource;
@@ -72,18 +71,21 @@ public class MoneyTransferApplication extends Application<ApplicationConfigurati
         TransactionRepository transactionRepository = new TransactionRepository(sessionManager);
         AccountRepository accountRepository = new AccountRepository(sessionManager);
         ExchangeRateRepository exchangeRateRepository = new ExchangeRateRepository(sessionManager);
+        CurrencyRepository currencyRepository = new CurrencyRepository(sessionManager);
 
         //Init services
         UserService userService = new UserService(userRepository);
-        AccountService accountService = new AccountService(accountRepository);
+        AccountService accountService = new AccountService(accountRepository, currencyRepository);
         TransferService transferService = new TransferService(transactionRepository, accountRepository, exchangeRateRepository);
 
         //Register health checks
         environment.healthChecks().register("Database heals check", new DatabaseHealthCheck());
 
         //Register resources
-        environment.jersey().register(new UserResource(userService));
+        environment.jersey().register(new UserResource(userService, accountService, transferService));
         environment.jersey().register(new TransferResource(transferService));
         environment.jersey().register(new AccountResource(accountService));
+        environment.jersey().register(new RuntimeExceptionMapper());
+        environment.jersey().register(new NotFoundExceptionMapper());
     }
 }

@@ -4,25 +4,38 @@
 
 <mapper namespace="com.revolut.money.transfer.db.mapper.AccountMapper">
 
-    <select id="read" parameterType="long" resultType="com.revolut.money.transfer.model.Account"
-            resultMap="findAccountResultMap">
+    <select id="read"
+            parameterType="long"
+            resultType="com.revolut.money.transfer.model.Account"
+            resultMap="readAccountResultMap">
         select a.account_id, a.user_id, a.account_number, a.balance, c.currency_id, c.currency_code from account as a
-        join currency as c on a.currency_id = c.currency_id  where user_id = #{id}
+        join currency as c on a.currency_id = c.currency_id  where account_id = #{accountId}
     </select>
 
-    <select id="readAll" parameterType="long" resultType="com.revolut.money.transfer.model.Account"
-            resultMap="findAccountResultMap">
+    <insert id="create"
+            parameterType="com.revolut.money.transfer.model.Account"
+            useGeneratedKeys="true"
+            keyProperty="accountId" keyColumn="account_id">
+        insert into account(user_id, account_number, balance, currency_id)
+        values (#{userId}, #{accountNumber}, #{balance}, #{currency.currencyId})
+    </insert>
+
+    <update id="update" parameterType="com.revolut.money.transfer.model.Account">
+        update account set balance = #{balance} where account_id = #{accountId}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        delete from account where account_id = #{accountId}
+    </delete>
+
+    <select id="readForUpdate"
+            parameterType="long" resultType="java.util.List"
+            resultMap="readAccountResultMap">
         select a.account_id, a.user_id, a.account_number, a.balance, c.currency_id, c.currency_code from account as a
-        join currency as c on a.currency_id = c.currency_id
+        join currency as c on a.currency_id = c.currency_id  where account_id = #{accountId} for update
     </select>
 
-    <select id="readForUpdate" parameterType="long" resultType="java.util.List"
-            resultMap="findAccountResultMap">
-        select a.account_id, a.user_id, a.account_number, a.balance, c.currency_id, c.currency_code from account as a
-        join currency as c on a.currency_id = c.currency_id  where user_id = #{id} for update
-    </select>
-
-    <resultMap id="findAccountResultMap" type="com.revolut.money.transfer.model.Account">
+    <resultMap id="readAccountResultMap" type="com.revolut.money.transfer.model.Account">
         <id property="accountId" column="account_id"/>
         <result property="userId" column="user_id"/>
         <result property="accountNumber" column="account_number"/>

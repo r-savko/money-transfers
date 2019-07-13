@@ -4,6 +4,7 @@ import com.revolut.money.transfer.db.repository.AccountRepository;
 import com.revolut.money.transfer.db.repository.ExchangeRateRepository;
 import com.revolut.money.transfer.db.repository.TransactionRepository;
 import com.revolut.money.transfer.db.util.TransactionUtils;
+import com.revolut.money.transfer.exception.NotFoundException;
 import com.revolut.money.transfer.model.Account;
 import com.revolut.money.transfer.model.ExchangeRate;
 import com.revolut.money.transfer.model.Transaction;
@@ -44,6 +45,9 @@ public class TransferService {
             accountFrom.setBalance(accountFrom.getBalance().subtract(amount));
             accountTo.setBalance(accountTo.getBalance().add(ratedAmount));
 
+            accountRepository.update(accountFrom);
+            accountRepository.update(accountTo);
+
             transaction.setStatus(TransactionStatus.COMPLETED);
 
             transactionRepository.create(transaction);
@@ -59,14 +63,18 @@ public class TransferService {
         Long fromCurrencyId = from.getCurrency().getCurrencyId();
         Long toCurrencyId = to.getCurrency().getCurrencyId();
         if (!fromCurrencyId.equals(toCurrencyId)) {
-            ExchangeRate rate = exchangeRateRepository.getExchangeRate(fromCurrencyId, toCurrencyId);
+            ExchangeRate rate = exchangeRateRepository.readExchangeRate(fromCurrencyId, toCurrencyId)
+                    .orElseThrow(() -> new NotFoundException("Unable to find exchange rate"));
             return amount.multiply(rate.getRate());
         }
         return amount;
     }
 
-    public List<Transaction> getAllTransactions(){
-        return transactionRepository.readAll();
+    public List<Transaction> findUserIncomingTransactions(Long userId) {
+        return transactionRepository.readUserIncomingTransactions(userId);
     }
 
+    public List<Transaction> findUserOutgoingTransactions(Long userId) {
+        return transactionRepository.readUserOutgoingTransactions(userId);
+    }
 }

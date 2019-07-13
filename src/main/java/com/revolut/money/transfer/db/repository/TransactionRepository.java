@@ -5,6 +5,7 @@ import com.revolut.money.transfer.model.Transaction;
 import org.apache.ibatis.session.SqlSessionManager;
 
 import java.util.List;
+import java.util.Optional;
 
 public class TransactionRepository extends AbstractRepository<Transaction, Long> {
 
@@ -18,12 +19,8 @@ public class TransactionRepository extends AbstractRepository<Transaction, Long>
     }
 
     @Override
-    public Transaction read(Long id) {
+    public Optional<Transaction> read(Long id) {
         return null;
-    }
-
-    public List<Transaction> readAll(){
-        return sessionManager.getMapper(TransactionMapper.class).readAll();
     }
 
     @Override
@@ -32,8 +29,16 @@ public class TransactionRepository extends AbstractRepository<Transaction, Long>
     }
 
     @Override
-    public void delete(Transaction entity) {
+    public void delete(Long transactionId) {
         throw new UnsupportedOperationException("Transaction removing is not supported");
+    }
+
+    public List<Transaction> readUserIncomingTransactions(Long userId) {
+        return sessionManager.getMapper(TransactionMapper.class).readUserIncomingTransactions(userId);
+    }
+
+    public List<Transaction> readUserOutgoingTransactions(Long userId) {
+        return sessionManager.getMapper(TransactionMapper.class).readUserOutgoingTransactions(userId);
     }
 
 }

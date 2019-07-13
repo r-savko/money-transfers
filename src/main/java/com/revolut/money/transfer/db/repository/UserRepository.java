@@ -1,8 +1,12 @@
 package com.revolut.money.transfer.db.repository;
 
 import com.revolut.money.transfer.db.mapper.UserMapper;
+import com.revolut.money.transfer.model.Account;
 import com.revolut.money.transfer.model.User;
 import org.apache.ibatis.session.SqlSessionManager;
+
+import java.util.List;
+import java.util.Optional;
 
 public class UserRepository extends AbstractRepository<User, Long> {
 
@@ -16,8 +20,8 @@ public class UserRepository extends AbstractRepository<User, Long> {
     }
 
     @Override
-    public User read(Long id) {
-        return sessionManager.getMapper(UserMapper.class).read(id);
+    public Optional<User> read(Long userId) {
+        return sessionManager.getMapper(UserMapper.class).read(userId);
     }
 
     @Override
@@ -26,8 +30,12 @@ public class UserRepository extends AbstractRepository<User, Long> {
     }
 
     @Override
-    public void delete(User user) {
-        sessionManager.getMapper(UserMapper.class).delete(user);
+    public void delete(Long userId) {
+        sessionManager.getMapper(UserMapper.class).delete(userId);
+    }
+
+    public List<Account> readUserAccounts(Long userId) {
+        return sessionManager.getMapper(UserMapper.class).readUserAccounts(userId);
     }
 
 }

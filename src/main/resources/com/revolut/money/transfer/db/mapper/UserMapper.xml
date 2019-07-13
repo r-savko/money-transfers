@@ -3,8 +3,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.revolut.money.transfer.db.mapper.UserMapper">
-    <select id="read" parameterType="long" resultType="com.revolut.money.transfer.model.User" resultMap="userResultMap">
+    <select id="read"
+            parameterType="long"
+            resultType="com.revolut.money.transfer.model.User"
+            resultMap="userResultMap">
         select user_id, name, surname from user where user_id = #{id}
+    </select>
+
+    <select id="readUserAccounts"
+            parameterType="long"
+            resultType="com.revolut.money.transfer.model.Account"
+            resultMap="com.revolut.money.transfer.db.mapper.AccountMapper.readAccountResultMap">
+        select a.account_id, a.user_id, a.account_number, a.balance, c.currency_id, c.currency_code from account as a
+        join currency as c on a.currency_id = c.currency_id where a.user_id = #{id}
     </select>
 
     <resultMap id="userResultMap" type="com.revolut.money.transfer.model.User">

@@ -65,7 +65,7 @@
         from_account   bigint NOT NULL ,
         to_account     bigint NOT NULL ,
         amount         decimal NOT NULL ,
-        transfer_date  datetime NOT NULL ,
+        transfer_date  timestamp NOT NULL ,
         status         varchar(25) NOT NULL,
 
         PRIMARY KEY (transaction_id),

@@ -3,12 +3,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.revolut.money.transfer.db.mapper.ExchangeRateMapper">
-    <select id="getExchangeRate" parameterType="long" resultType="com.revolut.money.transfer.model.User" resultMap="exchangeRateResultMap">
+    <select id="readExchangeRate"
+            parameterType="long"
+            resultType="com.revolut.money.transfer.model.User"
+            resultMap="readExchangeRateResultMap">
         select exchange_rate_id, currency_from, currency_to, rate from exchangerate
         where currency_from = #{param1} and currency_to = #{param2}
     </select>
 
-    <resultMap id="exchangeRateResultMap" type="com.revolut.money.transfer.model.ExchangeRate">
+    <resultMap id="readExchangeRateResultMap" type="com.revolut.money.transfer.model.ExchangeRate">
         <id property="exchangeRateId" column="exchange_rate_id"/>
         <result property="currencyFrom" column="currency_from"/>
         <result property="currencyTo" column="currency_to"/>

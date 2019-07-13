@@ -4,6 +4,8 @@ import com.revolut.money.transfer.db.mapper.ExchangeRateMapper;
 import com.revolut.money.transfer.model.ExchangeRate;
 import org.apache.ibatis.session.SqlSessionManager;
 
+import java.util.Optional;
+
 public class ExchangeRateRepository extends AbstractRepository<ExchangeRateRepository, Long> {
 
     public ExchangeRateRepository(SqlSessionManager sessionManager) {
@@ -12,26 +14,26 @@ public class ExchangeRateRepository extends AbstractRepository<ExchangeRateRepos
 
     @Override
     public void create(ExchangeRateRepository entity) {
-
+        throw new UnsupportedOperationException("Is not supported in the current application version");
     }
 
     @Override
-    public ExchangeRateRepository read(Long id) {
-        return null;
+    public Optional<ExchangeRateRepository> read(Long currencyId) {
+        throw new UnsupportedOperationException("Is not supported in the current application version");
     }
 
     @Override
     public void update(ExchangeRateRepository entity) {
-
+        throw new UnsupportedOperationException("Is not supported in the current application version");
     }
 
     @Override
-    public void delete(ExchangeRateRepository entity) {
-
+    public void delete(Long currencyId) {
+        throw new UnsupportedOperationException("Is not supported in the current application version");
     }
 
-    public ExchangeRate getExchangeRate(Long currencyIdFrom, Long currencyIdTo) {
-        return sessionManager.getMapper(ExchangeRateMapper.class).getExchangeRate(currencyIdFrom, currencyIdTo);
+    public Optional<ExchangeRate> readExchangeRate(Long currencyIdFrom, Long currencyIdTo) {
+        return sessionManager.getMapper(ExchangeRateMapper.class).readExchangeRate(currencyIdFrom, currencyIdTo);
     }
 
 
