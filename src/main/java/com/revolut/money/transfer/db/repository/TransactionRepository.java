@@ -19,26 +19,26 @@ public class TransactionRepository extends AbstractRepository<Transaction, Long>
     }
 
     @Override
-    public Optional<Transaction> read(Long id) {
-        return null;
+    public Optional<Transaction> read(Long transactionId) {
+        return sessionManager.getMapper(TransactionMapper.class).read(transactionId);
     }
 
     @Override
     public void update(Transaction entity) {
-        throw new UnsupportedOperationException("Transaction updating is not supported");
+        throw new UnsupportedOperationException("Transaction update is not supported");
     }
 
     @Override
     public void delete(Long transactionId) {
-        throw new UnsupportedOperationException("Transaction removing is not supported");
+        sessionManager.getMapper(TransactionMapper.class).delete(transactionId);
     }
 
-    public List<Transaction> readUserIncomingTransactions(Long userId) {
-        return sessionManager.getMapper(TransactionMapper.class).readUserIncomingTransactions(userId);
+    public void deleteAccountTransactions(Long transactionId) {
+        sessionManager.getMapper(TransactionMapper.class).deleteAccountTransactions(transactionId);
     }
 
-    public List<Transaction> readUserOutgoingTransactions(Long userId) {
-        return sessionManager.getMapper(TransactionMapper.class).readUserOutgoingTransactions(userId);
+    public List<Transaction> readAccountTransactions(Long accountId) {
+        return sessionManager.getMapper(TransactionMapper.class).readAccountTransactions(accountId);
     }
 
 }

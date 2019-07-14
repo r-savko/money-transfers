@@ -4,25 +4,25 @@ import java.math.BigDecimal;
 
 public class TransferRequest {
 
-    private Long fromAccountId;
-    private Long toAccountId;
+    private Long fromAccount;
+    private Long toAccount;
     private BigDecimal amount;
 
-    public Long getFromAccountId() {
-        return fromAccountId;
+    public Long getFromAccount() {
+        return fromAccount;
     }
 
-    public TransferRequest setFromAccountId(Long fromAccountId) {
-        this.fromAccountId = fromAccountId;
+    public TransferRequest setFromAccount(Long fromAccount) {
+        this.fromAccount = fromAccount;
         return this;
     }
 
-    public Long getToAccountId() {
-        return toAccountId;
+    public Long getToAccount() {
+        return toAccount;
     }
 
-    public TransferRequest setToAccountId(Long toAccountId) {
-        this.toAccountId = toAccountId;
+    public TransferRequest setToAccount(Long toAccount) {
+        this.toAccount = toAccount;
         return this;
     }
 

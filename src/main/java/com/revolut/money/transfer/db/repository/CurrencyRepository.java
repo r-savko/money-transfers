@@ -22,10 +22,6 @@ public class CurrencyRepository extends AbstractRepository<Currency, Long> {
         throw new UnsupportedOperationException("Is not supported in the current application version");
     }
 
-    public Optional<Currency> readByCurrencyCode(String currencyCode) {
-        return sessionManager.getMapper(CurrencyMapper.class).readByCurrencyCode(currencyCode);
-    }
-
     @Override
     public void delete(Long id) {
         throw new UnsupportedOperationException("Is not supported in the current application version");
@@ -34,5 +30,9 @@ public class CurrencyRepository extends AbstractRepository<Currency, Long> {
     @Override
     public void update(Currency entity) {
         throw new UnsupportedOperationException("Is not supported in the current application version");
+    }
+
+    public Optional<Currency> readByCurrencyCode(String currencyCode) {
+        return sessionManager.getMapper(CurrencyMapper.class).readByCurrencyCode(currencyCode);
     }
 }

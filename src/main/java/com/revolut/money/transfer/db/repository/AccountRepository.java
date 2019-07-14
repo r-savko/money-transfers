@@ -22,10 +22,6 @@ public class AccountRepository extends AbstractRepository<Account, Long> {
         return sessionManager.getMapper(AccountMapper.class).read(accountId);
     }
 
-    public Account readForUpdate(Long id) {
-        return sessionManager.getMapper(AccountMapper.class).readForUpdate(id);
-    }
-
     @Override
     public void update(Account entity) {
         sessionManager.getMapper(AccountMapper.class).update(entity);
@@ -36,5 +32,8 @@ public class AccountRepository extends AbstractRepository<Account, Long> {
         sessionManager.getMapper(AccountMapper.class).delete(accountId);
     }
 
+    public Optional<Account> readForUpdate(Long accountId) {
+        return sessionManager.getMapper(AccountMapper.class).readForUpdate(accountId);
+    }
 
 }

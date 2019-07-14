@@ -61,16 +61,15 @@
 
       CREATE TABLE Transaction
       (
-        transaction_id bigint NOT NULL AUTO_INCREMENT ,
-        from_account   bigint NOT NULL ,
-        to_account     bigint NOT NULL ,
-        amount         decimal NOT NULL ,
-        transfer_date  timestamp NOT NULL ,
-        status         varchar(25) NOT NULL,
+        transaction_id   bigint NOT NULL AUTO_INCREMENT ,
+        account          bigint NOT NULL ,
+        amount           decimal NOT NULL ,
+        transfer_date    timestamp NOT NULL ,
+        type             varchar(25) NOT NULL ,
+        message          varchar(200) NOT NULL ,
 
         PRIMARY KEY (transaction_id),
-        FOREIGN KEY (from_account) REFERENCES Account (account_id),
-        FOREIGN KEY (to_account) REFERENCES Account (account_id)
+        FOREIGN KEY (account) REFERENCES Account (account_id),
       );
 
     </sql>

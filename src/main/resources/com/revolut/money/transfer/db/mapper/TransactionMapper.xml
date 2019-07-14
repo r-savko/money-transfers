@@ -8,31 +8,32 @@
             parameterType="com.revolut.money.transfer.model.Transaction"
             useGeneratedKeys="true"
             keyProperty="transactionId" keyColumn="transaction_id">
-        insert into transaction(from_account, to_account, amount, transfer_date, status)
-        values (#{fromAccountId}, #{toAccountId}, #{amount}, #{transferDate}, #{status})
+        insert into transaction(account, amount, transfer_date, type, message)
+        values (#{account}, #{amount}, #{transferDate}, #{type}, #{message})
     </insert>
 
-    <select id="readUserIncomingTransactions"
-            resultType="java.util.List"
-            resultMap="readTransactionResultMap">
-        select transaction_id, from_account, to_account, amount, transfer_date, status
-        from transaction  where to_account = #{accountId}
-    </select>
+    <delete id="delete" parameterType="long">
+        delete from transaction where transaction_id = #{transactionId}
+    </delete>
 
-    <select id="readUserOutgoingTransactions"
+    <delete id="deleteAccountTransactions" parameterType="long">
+        delete from transaction where account = #{accountId}
+    </delete>
+
+    <select id="readAccountTransactions"
             resultType="java.util.List"
             resultMap="readTransactionResultMap">
-        select transaction_id, from_account, to_account, amount, transfer_date, status
-        from transaction where from_account = #{accountId}
+        select transaction_id, account, amount, transfer_date, type, message
+        from transaction  where account = #{accountId}
     </select>
 
     <resultMap id="readTransactionResultMap" type="com.revolut.money.transfer.model.Transaction">
         <id property="transactionId" column="transaction_id"/>
-        <result property="fromAccountId" column="from_account"/>
-        <result property="toAccountId" column="to_account"/>
-        <result property="amount" column="from_account"/>
+        <result property="account" column="account"/>
+        <result property="amount" column="amount"/>
         <result property="transferDate" column="transfer_date"/>
-        <result property="status" column="status"/>
+        <result property="type" column="type"/>
+        <result property="message" column="message"/>
     </resultMap>
 
 </mapper>

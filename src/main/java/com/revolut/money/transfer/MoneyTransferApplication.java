@@ -5,7 +5,7 @@ import com.revolut.money.transfer.configuration.ApplicationConfiguration;
 import com.revolut.money.transfer.db.repository.*;
 import com.revolut.money.transfer.db.util.DbMigrationConstants;
 import com.revolut.money.transfer.db.util.SessionFactoryUtils;
-import com.revolut.money.transfer.exception.mapper.GenericApplicationExceptionMapper;
+import com.revolut.money.transfer.exception.mapper.ApplicationExceptionMapper;
 import com.revolut.money.transfer.exception.mapper.NotFoundExceptionMapper;
 import com.revolut.money.transfer.healthcheck.DatabaseHealthCheck;
 import com.revolut.money.transfer.resource.AccountResource;
@@ -75,17 +75,17 @@ public class MoneyTransferApplication extends Application<ApplicationConfigurati
 
         //Init services
         UserService userService = new UserService(userRepository);
-        AccountService accountService = new AccountService(accountRepository, currencyRepository);
+        AccountService accountService = new AccountService(accountRepository, currencyRepository, transactionRepository);
         TransferService transferService = new TransferService(transactionRepository, accountRepository, exchangeRateRepository);
 
         //Register health checks
         environment.healthChecks().register("Database heals check", new DatabaseHealthCheck());
 
         //Register resources
-        environment.jersey().register(new UserResource(userService, accountService, transferService));
+        environment.jersey().register(new UserResource(userService, accountService));
         environment.jersey().register(new TransferResource(transferService));
-        environment.jersey().register(new AccountResource(accountService));
-        environment.jersey().register(new GenericApplicationExceptionMapper());
+        environment.jersey().register(new AccountResource(accountService, transferService));
+        environment.jersey().register(new ApplicationExceptionMapper());
         environment.jersey().register(new NotFoundExceptionMapper());
     }
 }

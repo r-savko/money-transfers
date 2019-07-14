@@ -4,9 +4,7 @@
 
 <mapper namespace="com.revolut.money.transfer.db.mapper.PingMapper">
 
-    <select id="ping"
-            parameterType="long"
-            resultType="integer">
+    <select id="ping" parameterType="long" resultType="integer">
        select 1 as health
     </select>
 

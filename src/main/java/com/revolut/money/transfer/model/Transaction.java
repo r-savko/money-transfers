@@ -6,11 +6,11 @@ import java.util.Date;
 public class Transaction {
 
     private Long transactionId;
-    private Long fromAccountId;
-    private Long toAccountId;
+    private Long account;
     private BigDecimal amount;
     private Date transferDate;
-    private TransactionStatus status;
+    private TransactionType type;
+    private String message;
 
     public Long getTransactionId() {
         return transactionId;
@@ -21,21 +21,12 @@ public class Transaction {
         return this;
     }
 
-    public Long getFromAccountId() {
-        return fromAccountId;
+    public Long getAccount() {
+        return account;
     }
 
-    public Transaction setFromAccountId(Long fromAccountId) {
-        this.fromAccountId = fromAccountId;
-        return this;
-    }
-
-    public Long getToAccountId() {
-        return toAccountId;
-    }
-
-    public Transaction setToAccountId(Long toAccountId) {
-        this.toAccountId = toAccountId;
+    public Transaction setAccount(Long account) {
+        this.account = account;
         return this;
     }
 
@@ -57,12 +48,21 @@ public class Transaction {
         return this;
     }
 
-    public TransactionStatus getStatus() {
-        return status;
+    public TransactionType getType() {
+        return type;
     }
 
-    public Transaction setStatus(TransactionStatus status) {
-        this.status = status;
+    public Transaction setType(TransactionType type) {
+        this.type = type;
+        return this;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public Transaction setMessage(String message) {
+        this.message = message;
         return this;
     }
 }

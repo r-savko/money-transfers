@@ -1,6 +1,6 @@
 package com.revolut.money.transfer.exception.mapper;
 
-import com.revolut.money.transfer.exception.GenericApplicationException;
+import com.revolut.money.transfer.exception.ApplicationException;
 import com.revolut.money.transfer.exception.model.ErrorResponse;
 import org.eclipse.jetty.http.HttpStatus;
 import org.slf4j.Logger;
@@ -9,12 +9,12 @@ import org.slf4j.LoggerFactory;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 
-public class GenericApplicationExceptionMapper implements ExceptionMapper<GenericApplicationException> {
+public class ApplicationExceptionMapper implements ExceptionMapper<ApplicationException> {
 
-    private static final Logger logger = LoggerFactory.getLogger(GenericApplicationExceptionMapper.class);
+    private static final Logger logger = LoggerFactory.getLogger(ApplicationExceptionMapper.class);
 
     @Override
-    public Response toResponse(GenericApplicationException exception) {
+    public Response toResponse(ApplicationException exception) {
 
         logger.error("Internal server error", exception);
 

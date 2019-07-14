@@ -7,6 +7,9 @@ import com.revolut.money.transfer.model.User;
 
 import java.util.List;
 
+/**
+ * Service class for user manipulation.
+ */
 public class UserService {
 
     private UserRepository userRepository;

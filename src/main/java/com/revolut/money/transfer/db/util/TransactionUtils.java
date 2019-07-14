@@ -5,27 +5,36 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.internal.util.Producer;
 
-import java.util.Optional;
-
 public final class TransactionUtils {
 
     private static final Logger log = LogManager.getLogger(TransactionUtils.class);
 
     private static SqlSessionManager sqlSessionManager;
 
-    public static <T> Optional<T> runInTransaction(Producer<T> producer) {
+    public static <T> T runInTransaction(Producer<T> actionInTransaction) {
         beforeStart();
         T result;
         try {
-            result = producer.call();
+            result = actionInTransaction.call();
         } catch (Exception e) {
             onError();
             log.error("Unable to execute logic in transaction", e);
-            return Optional.empty();
+            throw e;
         }
         afterEnd();
-        return Optional.of(result);
+        return result;
+    }
 
+    public static void runInTransaction(Runnable actionInTransaction) {
+        beforeStart();
+        try {
+            actionInTransaction.run();
+        } catch (Exception e) {
+            onError();
+            log.error("Unable to execute logic in transaction", e);
+            throw e;
+        }
+        afterEnd();
     }
 
     private static void beforeStart() {

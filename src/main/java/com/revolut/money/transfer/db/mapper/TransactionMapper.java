@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface TransactionMapper extends EntityMapper<Transaction> {
 
-    List<Transaction> readUserIncomingTransactions(Long userId);
+    List<Transaction> readAccountTransactions(Long accountId);
 
-    List<Transaction> readUserOutgoingTransactions(Long userId);
+    void deleteAccountTransactions(Long accountId);
 
 }
 
