@@ -76,7 +76,7 @@ public class TransferService {
             debitTransaction.setAmount(amount);
             creditTransaction.setAmount(ratedAmount);
 
-            //update accounts
+            //update accounts in database
             accountRepository.update(accountFrom);
             accountRepository.update(accountTo);
 
@@ -88,6 +88,13 @@ public class TransferService {
         });
     }
 
+    /**
+     * Apply currency exchange rates
+     * @param from source account
+     * @param to destination account
+     * @param amount amount of funds for transfer
+     * @return adjusted transfer amount based on currency exchange rate
+     */
     private BigDecimal applyRates(Account from, Account to, BigDecimal amount) {
         Long fromCurrencyId = from.getCurrency().getCurrencyId();
         Long toCurrencyId = to.getCurrency().getCurrencyId();
@@ -99,13 +106,23 @@ public class TransferService {
         return amount;
     }
 
+    /**
+     * Transfer amount validation. Account balance should be greater or equal of transfer amount.
+     * @param account account to be validated
+     * @param amount transfer amount to be validated
+     */
     private void validateTransferAmount(Account account, BigDecimal amount) {
         if (account.getBalance().compareTo(amount) < 0) {
             throw new ApplicationException("Transaction amount is greater than account balance");
         }
     }
 
-    public List<Transaction> findAccountTransactions(Long userId) {
-        return transactionRepository.readAccountTransactions(userId);
+    /**
+     * Get all transactions associated with account
+     * @param accountId account identifier
+     * @return list with all transactions for account
+     */
+    public List<Transaction> findAccountTransactions(Long accountId) {
+        return transactionRepository.readAccountTransactions(accountId);
     }
 }

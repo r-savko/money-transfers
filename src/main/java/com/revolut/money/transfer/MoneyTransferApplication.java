@@ -15,6 +15,7 @@ import com.revolut.money.transfer.service.AccountService;
 import com.revolut.money.transfer.service.TransferService;
 import com.revolut.money.transfer.service.UserService;
 import io.dropwizard.Application;
+import io.dropwizard.configuration.ResourceConfigurationSourceProvider;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.db.ManagedDataSource;
 import io.dropwizard.migrations.MigrationsBundle;
@@ -26,7 +27,7 @@ import org.apache.ibatis.session.SqlSessionManager;
 
 public class MoneyTransferApplication extends Application<ApplicationConfiguration> {
 
-    private final MigrationsBundle<ApplicationConfiguration> migrationsBundle = new MigrationsBundle<>() {
+    private final MigrationsBundle<ApplicationConfiguration> migrationsBundle = new MigrationsBundle<ApplicationConfiguration>() {
         @Override
         public DataSourceFactory getDataSourceFactory(ApplicationConfiguration configuration) {
             return configuration.getDatabase();
@@ -49,13 +50,14 @@ public class MoneyTransferApplication extends Application<ApplicationConfigurati
         super.initialize(bootstrap);
         bootstrap.addBundle(migrationsBundle);
         bootstrap.addBundle(migrateOnStartupBundle);
-        bootstrap.addBundle(new SwaggerBundle<>() {
+        bootstrap.addBundle(new SwaggerBundle<ApplicationConfiguration>() {
             @Override
             protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(ApplicationConfiguration configuration) {
                 // this would be the preferred way to set up swagger, you can also construct the object here programtically if you want
                 return configuration.swaggerBundleConfiguration;
             }
         });
+        bootstrap.setConfigurationSourceProvider(new ResourceConfigurationSourceProvider());
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.revolut.money.transfer.exception.model;
 
+import com.google.common.base.Objects;
+
 public class ErrorResponse {
 
     private Integer code;
@@ -26,5 +28,19 @@ public class ErrorResponse {
     public ErrorResponse setMessage(String message) {
         this.message = message;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ErrorResponse that = (ErrorResponse) o;
+        return Objects.equal(code, that.code) &&
+                Objects.equal(message, that.message);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(code, message);
     }
 }

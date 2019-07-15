@@ -33,7 +33,7 @@ public class AccountService {
     }
 
     /**
-     * Creates account with zero balance, selected currency and entered account number (IBAN)
+     * Creates account with zero balance, selected currency and entered account number (for example IBAN)
      *
      * @param userId the user for whom the account will be created
      * @param currencyCode currency code for account
@@ -60,7 +60,7 @@ public class AccountService {
                     () -> new ApplicationException("Unable to find account with id " + accountId)
             );
 
-            //check account for empty balance
+            //check account for zero balance
             if (!account.getBalance().equals(BigDecimal.ZERO)) {
                 throw new ApplicationException("Unable to remove account with positive balance");
             }

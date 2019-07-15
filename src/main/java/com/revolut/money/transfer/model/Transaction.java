@@ -1,5 +1,7 @@
 package com.revolut.money.transfer.model;
 
+import com.google.common.base.Objects;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -64,5 +66,23 @@ public class Transaction {
     public Transaction setMessage(String message) {
         this.message = message;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Transaction that = (Transaction) o;
+        return Objects.equal(transactionId, that.transactionId) &&
+                Objects.equal(account, that.account) &&
+                Objects.equal(amount, that.amount) &&
+                Objects.equal(transferDate, that.transferDate) &&
+                type == that.type &&
+                Objects.equal(message, that.message);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(transactionId, account, amount, transferDate, type, message);
     }
 }

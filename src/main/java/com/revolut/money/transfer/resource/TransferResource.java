@@ -5,6 +5,8 @@ import com.revolut.money.transfer.resource.model.TransferRequest;
 import com.revolut.money.transfer.service.TransferService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -19,6 +21,8 @@ import javax.ws.rs.core.MediaType;
 @Api(value = "Fund transfer API", produces = MediaType.APPLICATION_JSON)
 public class TransferResource {
 
+    private static final Logger logger = LoggerFactory.getLogger(TransferResource.class);
+
     private TransferService transferService;
 
     public TransferResource(TransferService transferService) {
@@ -28,7 +32,13 @@ public class TransferResource {
     @POST
     @ApiOperation(value = "Fund transfer between two accounts")
     public Transaction transfer(@Valid TransferRequest transferRequest) {
-        return transferService.transfer(transferRequest.getFromAccount(), transferRequest.getToAccount(), transferRequest.getAmount());
+
+        Long from = transferRequest.getFromAccount();
+        Long to = transferRequest.getToAccount();
+
+        logger.info("Transferring funds from the account " + from + " to the account " + to);
+
+        return transferService.transfer(from, to, transferRequest.getAmount());
     }
 
 }
