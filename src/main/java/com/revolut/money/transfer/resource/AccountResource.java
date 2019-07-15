@@ -7,6 +7,7 @@ import com.revolut.money.transfer.service.TransferService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -28,21 +29,21 @@ public class AccountResource {
     @GET
     @Path("/{accountId}")
     @ApiOperation(value = "Get account info")
-    public Account findAccount(@PathParam("accountId") Long accountId) {
+    public Account findAccount(@PathParam("accountId") @NotNull Long accountId) {
         return accountService.findAccount(accountId);
     }
 
     @DELETE
     @Path("/{accountId}")
     @ApiOperation(value = "Delete account with all transactions")
-    public void deleteAccount(@PathParam("accountId") Long accountId) {
+    public void deleteAccount(@PathParam("accountId") @NotNull Long accountId) {
         accountService.deleteAccount(accountId);
     }
 
     @GET
     @Path("/{accountId}/transactions")
     @ApiOperation(value = "Get account transactions")
-    public List<Transaction> findAccountTransactions(@PathParam("accountId") Long accountId) {
+    public List<Transaction> findAccountTransactions(@PathParam("accountId") @NotNull Long accountId) {
         return transferService.findAccountTransactions(accountId);
     }
 

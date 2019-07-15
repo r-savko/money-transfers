@@ -1,9 +1,13 @@
 package com.revolut.money.transfer.resource.model;
 
+import javax.validation.constraints.NotEmpty;
+
 public class CreateAccountRequest {
 
+    @NotEmpty
     private String currencyCode;
 
+    @NotEmpty
     private String accountNumber;
 
     public String getCurrencyCode() {

@@ -6,6 +6,7 @@ import com.revolut.money.transfer.service.TransferService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -26,7 +27,7 @@ public class TransferResource {
 
     @POST
     @ApiOperation(value = "Fund transfer between two accounts")
-    public Transaction transfer(TransferRequest transferRequest) {
+    public Transaction transfer(@Valid TransferRequest transferRequest) {
         return transferService.transfer(transferRequest.getFromAccount(), transferRequest.getToAccount(), transferRequest.getAmount());
     }
 
