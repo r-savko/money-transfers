@@ -32,12 +32,12 @@ public class TransferResourceTest {
             .build();
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         reset(transferService);
     }
 
     @Test
-    public void transferTest() {
+    void transferTest() {
         // Given
         Transaction transaction = new Transaction().setTransactionId(1L).setAmount(BigDecimal.TEN)
                 .setTransferDate(new Date()).setMessage("General transaction info");

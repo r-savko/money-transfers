@@ -7,6 +7,9 @@ import org.apache.ibatis.session.SqlSessionManager;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository to work with fund transfer transactions
+ */
 public class TransactionRepository extends AbstractRepository<Transaction, Long> {
 
     public TransactionRepository(SqlSessionManager sessionManager) {

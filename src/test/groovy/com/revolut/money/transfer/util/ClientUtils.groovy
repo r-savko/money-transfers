@@ -17,7 +17,7 @@ class ClientUtils {
 
     public static def DROPWIZARD_SUPPORT =
             new DropwizardTestSupport<ApplicationConfiguration>(MoneyTransferApplication.class,
-                    ResourceHelpers.resourceFilePath("application.yaml"),
+                    ResourceHelpers.resourceFilePath("test-application.yaml"),
                     ConfigOverride.config("database.url", "jdbc:h2:" + TMP_FILE)
             )
 

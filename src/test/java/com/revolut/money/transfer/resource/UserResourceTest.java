@@ -10,7 +10,6 @@ import com.revolut.money.transfer.service.UserService;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 import io.dropwizard.testing.junit5.ResourceExtension;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -34,23 +33,18 @@ public class UserResourceTest {
     private static final String ENDPOINT_CREATE_ACCOUNT = "/v1/user/1/account";
     private static final String ENDPOINT_FIND_USER_ACCOUNTS = "/v1/user/1/accounts";
 
-
     public static final ResourceExtension extension = ResourceExtension.builder()
             .addResource(new UserResource(userService, accountService))
             .build();
 
-    @BeforeEach
-    public void setup() {
-    }
-
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         reset(userService);
         reset(accountService);
     }
 
     @Test
-    public void findUserTest() {
+    void findUserTest() {
         // Given
         User user = new User().setUserId(USER_ID).setName("Name").setSurname("Surname");
 
@@ -65,7 +59,7 @@ public class UserResourceTest {
     }
 
     @Test
-    public void findUserAccountsTest() {
+    void findUserAccountsTest() {
         // Given
         Currency currency = new Currency().setCurrencyId(1L).setCurrencyCode("USD");
         Account firstAccount = new Account().setUserId(USER_ID).setAccountNumber("Test_1")
@@ -91,7 +85,7 @@ public class UserResourceTest {
     }
 
     @Test
-    public void createAccountTest() {
+    void createAccountTest() {
         // Given
         Currency currency = new Currency().setCurrencyId(1L).setCurrencyCode("USD");
         Account account = new Account().setUserId(USER_ID).setAccountNumber("Test_1")

@@ -1,17 +1,21 @@
-package com.revolut.money.transfer.db.util;
+package com.revolut.money.transfer.db.transaction;
 
 import org.apache.ibatis.session.SqlSessionManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.internal.util.Producer;
 
-public final class TransactionUtils {
+public class TransactionManager {
 
-    private static final Logger log = LogManager.getLogger(TransactionUtils.class);
+    private static final Logger log = LogManager.getLogger(TransactionManager.class);
 
-    private static SqlSessionManager sqlSessionManager;
+    private SqlSessionManager sqlSessionManager;
 
-    public static <T> T runInTransaction(Producer<T> actionInTransaction) {
+    public TransactionManager(SqlSessionManager sqlSessionManager) {
+        this.sqlSessionManager = sqlSessionManager;
+    }
+
+    public <T> T runInTransaction(Producer<T> actionInTransaction) {
         beforeStart();
         T result;
         try {
@@ -25,7 +29,7 @@ public final class TransactionUtils {
         return result;
     }
 
-    public static void runInTransaction(Runnable actionInTransaction) {
+    public void runInTransaction(Runnable actionInTransaction) {
         beforeStart();
         try {
             actionInTransaction.run();
@@ -37,12 +41,11 @@ public final class TransactionUtils {
         afterEnd();
     }
 
-    private static void beforeStart() {
-        sqlSessionManager = SessionFactoryUtils.getSqlSessionManager();
+    private void beforeStart() {
         sqlSessionManager.startManagedSession();
     }
 
-    private static void afterEnd() {
+    private void afterEnd() {
         try {
             commitTransaction();
         } catch (Exception e) {
@@ -51,7 +54,7 @@ public final class TransactionUtils {
         }
     }
 
-    private static void onError() {
+    private void onError() {
         try {
             rollbackTransaction();
         } finally {
@@ -59,15 +62,15 @@ public final class TransactionUtils {
         }
     }
 
-    private static void onFinish() {
+    private void onFinish() {
         sqlSessionManager.close();
     }
 
-    private static void rollbackTransaction() {
+    private void rollbackTransaction() {
         sqlSessionManager.rollback();
     }
 
-    private static void commitTransaction() {
+    private void commitTransaction() {
         sqlSessionManager.commit();
     }
 

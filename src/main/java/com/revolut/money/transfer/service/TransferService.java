@@ -3,7 +3,7 @@ package com.revolut.money.transfer.service;
 import com.revolut.money.transfer.db.repository.AccountRepository;
 import com.revolut.money.transfer.db.repository.ExchangeRateRepository;
 import com.revolut.money.transfer.db.repository.TransactionRepository;
-import com.revolut.money.transfer.db.util.TransactionUtils;
+import com.revolut.money.transfer.db.transaction.TransactionManager;
 import com.revolut.money.transfer.exception.ApplicationException;
 import com.revolut.money.transfer.model.Account;
 import com.revolut.money.transfer.model.ExchangeRate;
@@ -22,13 +22,16 @@ public class TransferService {
     private TransactionRepository transactionRepository;
     private AccountRepository accountRepository;
     private ExchangeRateRepository exchangeRateRepository;
+    private TransactionManager transactionManager;
 
     public TransferService(TransactionRepository transactionRepository,
                            AccountRepository accountRepository,
-                           ExchangeRateRepository exchangeRateRepository) {
+                           ExchangeRateRepository exchangeRateRepository,
+                           TransactionManager transactionManager) {
         this.transactionRepository = transactionRepository;
         this.accountRepository = accountRepository;
         this.exchangeRateRepository = exchangeRateRepository;
+        this.transactionManager = transactionManager;
     }
 
     /**
@@ -52,7 +55,7 @@ public class TransferService {
                 .setMessage("Transfer from account with id " + accountIdFrom);
 
         //open transaction
-        return TransactionUtils.runInTransaction(() -> {
+        return transactionManager.runInTransaction(() -> {
 
             //pessimistic locking for account records
             Account accountFrom = accountRepository.readForUpdate(accountIdFrom).orElseThrow(

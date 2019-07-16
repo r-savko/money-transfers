@@ -3,7 +3,7 @@ package com.revolut.money.transfer.service;
 import com.revolut.money.transfer.db.repository.AccountRepository;
 import com.revolut.money.transfer.db.repository.CurrencyRepository;
 import com.revolut.money.transfer.db.repository.TransactionRepository;
-import com.revolut.money.transfer.db.util.TransactionUtils;
+import com.revolut.money.transfer.db.transaction.TransactionManager;
 import com.revolut.money.transfer.exception.ApplicationException;
 import com.revolut.money.transfer.exception.NotFoundException;
 import com.revolut.money.transfer.model.Account;
@@ -19,13 +19,16 @@ public class AccountService {
     private AccountRepository accountRepository;
     private CurrencyRepository currencyRepository;
     private TransactionRepository transactionRepository;
+    private TransactionManager transactionManager;
 
     public AccountService(AccountRepository accountRepository,
                           CurrencyRepository currencyRepository,
-                          TransactionRepository transactionRepository) {
+                          TransactionRepository transactionRepository,
+                          TransactionManager transactionManager) {
         this.accountRepository = accountRepository;
         this.currencyRepository = currencyRepository;
         this.transactionRepository = transactionRepository;
+        this.transactionManager = transactionManager;
     }
 
     public Account findAccount(Long accountId) {
@@ -55,7 +58,7 @@ public class AccountService {
      * @param accountId account to be removed
      */
     public void deleteAccount(Long accountId) {
-        TransactionUtils.runInTransaction(() -> {
+        transactionManager.runInTransaction(() -> {
             Account account = accountRepository.readForUpdate(accountId).orElseThrow(
                     () -> new ApplicationException("Unable to find account with id " + accountId)
             );

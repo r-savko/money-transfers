@@ -6,6 +6,9 @@ import org.apache.ibatis.session.SqlSessionManager;
 
 import java.util.Optional;
 
+/**
+ * Repository to work with currencies
+ */
 public class CurrencyRepository extends AbstractRepository<Currency, Long> {
 
     public CurrencyRepository(SqlSessionManager sessionManager) {

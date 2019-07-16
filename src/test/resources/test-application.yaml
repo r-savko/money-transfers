@@ -10,8 +10,5 @@ database:
   # the password
   password: sa
 
-  # the JDBC URL
-  url: jdbc:h2:./db/transfer
-
 swagger:
   resourcePackage: com.revolut.money.transfer.resource

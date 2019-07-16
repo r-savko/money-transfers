@@ -6,6 +6,9 @@ import org.apache.ibatis.session.SqlSessionManager;
 
 import java.util.Optional;
 
+/**
+ * Repository to work with accounts
+ */
 public class AccountRepository extends AbstractRepository<Account, Long> {
 
     public AccountRepository(SqlSessionManager sessionManager) {

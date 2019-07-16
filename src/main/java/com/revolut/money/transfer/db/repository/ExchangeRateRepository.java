@@ -6,24 +6,27 @@ import org.apache.ibatis.session.SqlSessionManager;
 
 import java.util.Optional;
 
-public class ExchangeRateRepository extends AbstractRepository<ExchangeRateRepository, Long> {
+/**
+ * Repository to work with exchange rates
+ */
+public class ExchangeRateRepository extends AbstractRepository<ExchangeRate, Long> {
 
     public ExchangeRateRepository(SqlSessionManager sessionManager) {
         super(sessionManager);
     }
 
     @Override
-    public void create(ExchangeRateRepository entity) {
+    public void create(ExchangeRate entity) {
         throw new UnsupportedOperationException("Is not supported in the current application version");
     }
 
     @Override
-    public Optional<ExchangeRateRepository> read(Long currencyId) {
+    public Optional<ExchangeRate> read(Long currencyId) {
         throw new UnsupportedOperationException("Is not supported in the current application version");
     }
 
     @Override
-    public void update(ExchangeRateRepository entity) {
+    public void update(ExchangeRate entity) {
         throw new UnsupportedOperationException("Is not supported in the current application version");
     }
 

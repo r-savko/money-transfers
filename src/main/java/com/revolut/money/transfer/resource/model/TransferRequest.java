@@ -1,6 +1,7 @@
 package com.revolut.money.transfer.resource.model;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 public class TransferRequest {
@@ -12,6 +13,7 @@ public class TransferRequest {
     private Long toAccount;
 
     @NotNull
+    @Positive
     private BigDecimal amount;
 
     public Long getFromAccount() {

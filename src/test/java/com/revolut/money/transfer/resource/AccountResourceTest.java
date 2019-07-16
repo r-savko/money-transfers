@@ -37,13 +37,13 @@ public class AccountResourceTest {
             .build();
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         reset(accountService);
         reset(transferService);
     }
 
     @Test
-    public void findAccountTest() {
+    void findAccountTest() {
         // Given
         Currency currency = new Currency().setCurrencyId(1L).setCurrencyCode("USD");
         Account account = new Account().setUserId(USER_ID).setAccountNumber("Test_1")
@@ -60,7 +60,7 @@ public class AccountResourceTest {
     }
 
     @Test
-    public void deleteAccountTest() {
+    void deleteAccountTest() {
 
         // When
         extension.target(ENDPOINT_DELETE_ACCOUNT).request().delete();
@@ -70,7 +70,7 @@ public class AccountResourceTest {
     }
 
     @Test
-    public void findAccountTransactionsTest() {
+    void findAccountTransactionsTest() {
 
         // Given
         List<Transaction> transactions = Lists.list(

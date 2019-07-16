@@ -8,6 +8,9 @@ import org.apache.ibatis.session.SqlSessionManager;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository to work with users
+ */
 public class UserRepository extends AbstractRepository<User, Long> {
 
     public UserRepository(SqlSessionManager sessionManager) {

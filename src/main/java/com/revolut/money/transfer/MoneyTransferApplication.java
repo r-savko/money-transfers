@@ -3,6 +3,7 @@ package com.revolut.money.transfer;
 import com.revolut.money.transfer.bundle.MigrateOnStartupBundle;
 import com.revolut.money.transfer.configuration.ApplicationConfiguration;
 import com.revolut.money.transfer.db.repository.*;
+import com.revolut.money.transfer.db.transaction.TransactionManager;
 import com.revolut.money.transfer.db.util.DbMigrationConstants;
 import com.revolut.money.transfer.db.util.SessionFactoryUtils;
 import com.revolut.money.transfer.exception.mapper.ApplicationExceptionMapper;
@@ -15,7 +16,6 @@ import com.revolut.money.transfer.service.AccountService;
 import com.revolut.money.transfer.service.TransferService;
 import com.revolut.money.transfer.service.UserService;
 import io.dropwizard.Application;
-import io.dropwizard.configuration.ResourceConfigurationSourceProvider;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.db.ManagedDataSource;
 import io.dropwizard.migrations.MigrationsBundle;
@@ -27,7 +27,7 @@ import org.apache.ibatis.session.SqlSessionManager;
 
 public class MoneyTransferApplication extends Application<ApplicationConfiguration> {
 
-    private final MigrationsBundle<ApplicationConfiguration> migrationsBundle = new MigrationsBundle<ApplicationConfiguration>() {
+    private final MigrationsBundle<ApplicationConfiguration> migrationsBundle = new MigrationsBundle<>() {
         @Override
         public DataSourceFactory getDataSourceFactory(ApplicationConfiguration configuration) {
             return configuration.getDatabase();
@@ -50,14 +50,13 @@ public class MoneyTransferApplication extends Application<ApplicationConfigurati
         super.initialize(bootstrap);
         bootstrap.addBundle(migrationsBundle);
         bootstrap.addBundle(migrateOnStartupBundle);
-        bootstrap.addBundle(new SwaggerBundle<ApplicationConfiguration>() {
+        bootstrap.addBundle(new SwaggerBundle<>() {
             @Override
             protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(ApplicationConfiguration configuration) {
                 // this would be the preferred way to set up swagger, you can also construct the object here programtically if you want
                 return configuration.swaggerBundleConfiguration;
             }
         });
-        bootstrap.setConfigurationSourceProvider(new ResourceConfigurationSourceProvider());
     }
 
     @Override
@@ -67,6 +66,7 @@ public class MoneyTransferApplication extends Application<ApplicationConfigurati
         ManagedDataSource dataSource = configuration.getDatabase().build(environment.metrics(), "MyBatis-Datasource");
         SessionFactoryUtils.initSessionManager(dataSource);
         SqlSessionManager sessionManager = SessionFactoryUtils.getSqlSessionManager();
+        TransactionManager transactionManager = new TransactionManager(sessionManager);
 
         //Init repositories
         UserRepository userRepository = new UserRepository(sessionManager);
@@ -77,8 +77,12 @@ public class MoneyTransferApplication extends Application<ApplicationConfigurati
 
         //Init services
         UserService userService = new UserService(userRepository);
-        AccountService accountService = new AccountService(accountRepository, currencyRepository, transactionRepository);
-        TransferService transferService = new TransferService(transactionRepository, accountRepository, exchangeRateRepository);
+        AccountService accountService = new AccountService(
+                accountRepository, currencyRepository, transactionRepository, transactionManager
+        );
+        TransferService transferService = new TransferService(
+                transactionRepository, accountRepository, exchangeRateRepository, transactionManager
+        );
 
         //Register health checks
         environment.healthChecks().register("Database heals check", new DatabaseHealthCheck());

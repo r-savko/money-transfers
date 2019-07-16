@@ -33,8 +33,7 @@ class UserSpecification extends Specification {
     def "Get user with id = #userId"(userId, status, name, surname) {
 
         when:
-        Response response = client.target(
-                String.format("http://localhost:%d/v1/user/%d", DW_SUPPORT.getLocalPort(), userId))
+        Response response = client.target("http://localhost:${DW_SUPPORT.getLocalPort()}/v1/user/${userId}")
                 .request()
                 .get()
 
