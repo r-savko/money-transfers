@@ -40,7 +40,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId == user.userId &&
+        return Objects.equal(userId, user.userId) &&
                 Objects.equal(name, user.name) &&
                 Objects.equal(surname, user.surname);
     }
