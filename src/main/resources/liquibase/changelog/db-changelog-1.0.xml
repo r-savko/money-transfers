@@ -93,7 +93,9 @@
 
   <changeSet id="Fill accounts" author="Roman Savko">
     <sql>
-      insert into Account(user_id, account_number, balance, currency_id) values(1, 'GB29 NWBK 6016 1331 9268 19', 1500, 1);
+      insert into Account(user_id, account_number, balance, currency_id) values(1, 'GB29 NWBK 6016 1331 9268 19', 0, 1);
+      insert into Account(user_id, account_number, balance, currency_id) values(1, 'GB29 NWBK 6016 1331 9268 20', 1555,
+      1);
       insert into Account(user_id, account_number, balance, currency_id) values(2, 'DE89 3704 0044 0532 0130 00', 2500, 1);
       insert into Account(user_id, account_number, balance, currency_id) values(3, 'SE45 5000 0000 0583 9825 7466', 2000, 2);
     </sql>
@@ -103,6 +105,15 @@
     <sql>
       insert into ExchangeRate(currency_from, currency_to, rate) values(1, 2, 1.12632);
       insert into ExchangeRate(currency_from, currency_to, rate) values(2, 1, 0.88775);
+    </sql>
+  </changeSet>
+
+  <changeSet id="Fill transactions" author="Roman Savko">
+    <sql>
+      insert into transaction(account, amount, transfer_date, type, message) values (1, 15, now(), 'DEBIT', 'Test
+      transaction 1');
+      insert into transaction(account, amount, transfer_date, type, message) values (1, 15, now(), 'CREDIT', 'Test
+      transaction 2');
     </sql>
   </changeSet>
 

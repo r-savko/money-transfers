@@ -38,6 +38,7 @@ dependencies {
     testCompile "org.codehaus.groovy:groovy-all:2.5.7"
     testCompile "org.spockframework:spock-core:1.3-groovy-2.5"
     testCompile group: 'io.dropwizard', name: 'dropwizard-client', version: '2.0.0-rc4'
+    testCompile group: 'io.dropwizard', name: 'dropwizard-util', version: '2.0.0-rc4'
 }
 
 test {
