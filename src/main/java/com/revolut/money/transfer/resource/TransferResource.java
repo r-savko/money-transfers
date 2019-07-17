@@ -36,6 +36,11 @@ public class TransferResource {
         Long from = transferRequest.getFromAccount();
         Long to = transferRequest.getToAccount();
 
+        if (from.equals(to)) {
+            logger.warn("Source and target accounts are the same. " +
+                    "Funds transfer will be processed but it makes no sense.");
+        }
+
         logger.info("Transferring funds from the account " + from + " to the account " + to);
 
         return transferService.transfer(from, to, transferRequest.getAmount());
