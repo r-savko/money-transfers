@@ -66,4 +66,10 @@ To run application please execute command
 gradle run
 ``` 
 
+#### Test classes
+1. \src\test\groovy - integration tests
+2. \src\test\java - unit tests
+
 #### Live example
+
+##### http://revolut-backend-test.eu-west-1.elasticbeanstalk.com/swagger
