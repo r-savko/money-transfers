@@ -38,8 +38,8 @@ public class TransferService {
      * Transfers funds between two accounts
      *
      * @param accountIdFrom source account identifier for transfer
-     * @param accountIdTo destination account identifier for transfer
-     * @param amount transfer amount
+     * @param accountIdTo   destination account identifier for transfer
+     * @param amount        transfer amount
      * @return transaction info
      */
     public Transaction transfer(Long accountIdFrom, Long accountIdTo, BigDecimal amount) {
@@ -93,8 +93,9 @@ public class TransferService {
 
     /**
      * Apply currency exchange rates
-     * @param from source account
-     * @param to destination account
+     *
+     * @param from   source account
+     * @param to     destination account
      * @param amount amount of funds for transfer
      * @return adjusted transfer amount based on currency exchange rate
      */
@@ -111,8 +112,9 @@ public class TransferService {
 
     /**
      * Transfer amount validation. Account balance should be greater or equal of transfer amount.
+     *
      * @param account account to be validated
-     * @param amount transfer amount to be validated
+     * @param amount  transfer amount to be validated
      */
     private void validateTransferAmount(Account account, BigDecimal amount) {
         if (account.getBalance().compareTo(amount) < 0) {
@@ -122,6 +124,7 @@ public class TransferService {
 
     /**
      * Get all transactions associated with account
+     *
      * @param accountId account identifier
      * @return list with all transactions for account
      */

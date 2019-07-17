@@ -1,5 +1,7 @@
 package com.revolut.money.transfer.model;
 
+import com.google.common.base.Objects;
+
 import java.math.BigDecimal;
 
 public class ExchangeRate {
@@ -43,5 +45,21 @@ public class ExchangeRate {
     public ExchangeRate setRate(BigDecimal rate) {
         this.rate = rate;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ExchangeRate rate1 = (ExchangeRate) o;
+        return Objects.equal(exchangeRateId, rate1.exchangeRateId) &&
+                Objects.equal(currencyFrom, rate1.currencyFrom) &&
+                Objects.equal(currencyTo, rate1.currencyTo) &&
+                Objects.equal(rate, rate1.rate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(exchangeRateId, currencyFrom, currencyTo, rate);
     }
 }

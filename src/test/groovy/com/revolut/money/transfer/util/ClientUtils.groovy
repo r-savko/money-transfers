@@ -11,7 +11,6 @@ import io.dropwizard.util.Duration
 
 class ClientUtils {
 
-
     static def getDropwizardSupport() {
         String tempFile = File.createTempFile("test-example", null).getAbsolutePath();
         return new DropwizardTestSupport<ApplicationConfiguration>(MoneyTransferApplication.class,

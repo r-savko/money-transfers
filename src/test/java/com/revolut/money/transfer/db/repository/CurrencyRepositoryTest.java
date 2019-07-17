@@ -15,8 +15,8 @@ import static org.mockito.Mockito.*;
 class CurrencyRepositoryTest {
 
     private static final Long CURRENCY_ID = 1L;
-
-    private static final Currency CURRENCY = new Currency().setCurrencyId(CURRENCY_ID).setCurrencyCode("USD");
+    private static final String CURRENCY_CODE = "USD";
+    private static final Currency CURRENCY = new Currency().setCurrencyId(CURRENCY_ID).setCurrencyCode(CURRENCY_CODE);
 
     private CurrencyMapper currencyMapper;
     private CurrencyRepository currencyRepository;
@@ -50,11 +50,14 @@ class CurrencyRepositoryTest {
 
     @Test
     void readByCurrencyCode() {
+        // Given
         when(sqlSessionManager.getMapper(CurrencyMapper.class)).thenReturn(currencyMapper);
 
-        currencyRepository.readByCurrencyCode("USD");
+        // When
+        currencyRepository.readByCurrencyCode(CURRENCY_CODE);
 
-        verify(currencyMapper).readByCurrencyCode(eq("USD"));
+        // Then
+        verify(currencyMapper).readByCurrencyCode(eq(CURRENCY_CODE));
     }
 
 }

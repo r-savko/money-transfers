@@ -24,6 +24,9 @@ import static org.mockito.Mockito.when;
 class UserServiceTest {
 
     private static final Long USER_ID = 1L;
+    private static final Long ACCOUNT_ID = 123L;
+    private static final String CURRENCY_CODE = "USD";
+    private static final Long CURRENCY_ID = 1L;
 
     @Mock
     private UserRepository userRepository;
@@ -58,11 +61,11 @@ class UserServiceTest {
     @Test
     void findUserAccountsTest() {
         // Given
-        Currency currency = new Currency().setCurrencyId(1L).setCurrencyCode("USD");
+        Currency currency = new Currency().setCurrencyId(CURRENCY_ID).setCurrencyCode(CURRENCY_CODE);
         Account firstAccount = new Account().setUserId(USER_ID).setAccountNumber("Test_1")
-                .setCurrency(currency).setBalance(new BigDecimal("10")).setAccountId(2L);
+                .setCurrency(currency).setBalance(BigDecimal.TEN).setAccountId(ACCOUNT_ID);
         Account secondAccount = new Account().setUserId(USER_ID).setAccountNumber("Test_2")
-                .setCurrency(currency).setBalance(new BigDecimal("10")).setAccountId(2L);
+                .setCurrency(currency).setBalance(BigDecimal.TEN).setAccountId(ACCOUNT_ID);
 
         List<Account> accounts = List.of(firstAccount, secondAccount);
 

@@ -28,6 +28,13 @@ public class AccountResourceTest {
 
     private static final Long USER_ID = 1L;
     private static final Long ACCOUNT_ID = 1L;
+    private static final String CURRENCY_CODE = "USD";
+    private static final Long CURRENCY_ID = 1L;
+    private static final Long TRANSACTION_ID_1 = 1L;
+    private static final Long TRANSACTION_ID_2 = 2L;
+    private static final Currency CURRENCY = new Currency().setCurrencyId(CURRENCY_ID).setCurrencyCode(CURRENCY_CODE);
+    private static final Account ACCOUNT = new Account().setUserId(USER_ID).setAccountNumber("Test number")
+            .setCurrency(CURRENCY).setBalance(BigDecimal.TEN).setAccountId(ACCOUNT_ID);
     private static final String ENDPOINT_FIND_ACCOUNT = "/v1/account/1";
     private static final String ENDPOINT_DELETE_ACCOUNT = "/v1/account/1";
     private static final String ENDPOINT_FIND_ACCOUNT_TRANSACTIONS = "/v1/account/1/transactions";
@@ -45,17 +52,13 @@ public class AccountResourceTest {
     @Test
     void findAccountTest() {
         // Given
-        Currency currency = new Currency().setCurrencyId(1L).setCurrencyCode("USD");
-        Account account = new Account().setUserId(USER_ID).setAccountNumber("Test_1")
-                .setCurrency(currency).setBalance(BigDecimal.TEN).setAccountId(ACCOUNT_ID);
-
-        when(accountService.findAccount(ACCOUNT_ID)).thenReturn(account);
+        when(accountService.findAccount(ACCOUNT_ID)).thenReturn(ACCOUNT);
 
         // When
         Account accountResponse = extension.target(ENDPOINT_FIND_ACCOUNT).request().get(Account.class);
 
         // Then
-        assertThat(accountResponse).isEqualTo(account);
+        assertThat(accountResponse).isEqualTo(ACCOUNT);
         verify(accountService).findAccount(ACCOUNT_ID);
     }
 
@@ -74,9 +77,9 @@ public class AccountResourceTest {
 
         // Given
         List<Transaction> transactions = Lists.list(
-                new Transaction().setTransactionId(1L).setAccount(ACCOUNT_ID)
+                new Transaction().setTransactionId(TRANSACTION_ID_1).setAccount(ACCOUNT_ID)
                         .setAmount(BigDecimal.TEN).setMessage("General transaction info"),
-                new Transaction().setTransactionId(2L).setAccount(ACCOUNT_ID)
+                new Transaction().setTransactionId(TRANSACTION_ID_2).setAccount(ACCOUNT_ID)
                         .setAmount(BigDecimal.ONE).setMessage("General transaction info")
         );
 

@@ -27,8 +27,11 @@ class AccountServiceTest {
 
     private static final Long USER_ID = 1L;
     private static final Long ACCOUNT_ID = 1L;
+    private static final Long ACCOUNT_ID_2 = 2L;
     private static final String CURRENCY_CODE = "USD";
     private static final String ACCOUNT_NUMBER = "TEST_ACCOUNT_NUMBER";
+    private static final Long CURRENCY_ID = 1L;
+    private static final Currency CURRENCY = new Currency().setCurrencyId(CURRENCY_ID).setCurrencyCode(CURRENCY_CODE);
 
     private AccountRepository accountRepository;
     private CurrencyRepository currencyRepository;
@@ -50,9 +53,8 @@ class AccountServiceTest {
     @Test
     void findAccountTest() {
         // Given
-        Currency currency = new Currency().setCurrencyId(1L).setCurrencyCode(CURRENCY_CODE);
         Account account = new Account().setUserId(USER_ID).setAccountNumber("Test_1")
-                .setCurrency(currency).setBalance(BigDecimal.TEN).setAccountId(2L);
+                .setCurrency(CURRENCY).setBalance(BigDecimal.TEN).setAccountId(2L);
 
         when(accountRepository.read(ACCOUNT_ID)).thenReturn(Optional.of(account));
 
@@ -77,9 +79,7 @@ class AccountServiceTest {
     @Test
     void createAccountWithKnownCurrencyTest() {
         // Given
-        Currency currency = new Currency().setCurrencyId(1L).setCurrencyCode(CURRENCY_CODE);
-
-        when(currencyRepository.readByCurrencyCode(CURRENCY_CODE)).thenReturn(Optional.of(currency));
+        when(currencyRepository.readByCurrencyCode(CURRENCY_CODE)).thenReturn(Optional.of(CURRENCY));
 
         // When
         Account resultAccount = accountService.createAccount(ACCOUNT_ID, CURRENCY_CODE, ACCOUNT_NUMBER);
@@ -104,9 +104,8 @@ class AccountServiceTest {
     @Test
     void deleteAccountWithPositiveBalanceTest() {
         // Given
-        Currency currency = new Currency().setCurrencyId(1L).setCurrencyCode(CURRENCY_CODE);
         Account account = new Account().setUserId(USER_ID).setAccountNumber("Test_1")
-                .setCurrency(currency).setBalance(BigDecimal.TEN).setAccountId(2L);
+                .setCurrency(CURRENCY).setBalance(BigDecimal.TEN).setAccountId(ACCOUNT_ID);
         when(accountRepository.readForUpdate(ACCOUNT_ID)).thenReturn(Optional.of(account));
 
         // Then
@@ -120,9 +119,8 @@ class AccountServiceTest {
     @Test
     void deleteAccountWithZeroBalanceTest() {
         // Given
-        Currency currency = new Currency().setCurrencyId(1L).setCurrencyCode(CURRENCY_CODE);
         Account account = new Account().setUserId(USER_ID).setAccountNumber("Test_1")
-                .setCurrency(currency).setBalance(BigDecimal.ZERO).setAccountId(2L);
+                .setCurrency(CURRENCY).setBalance(BigDecimal.ZERO).setAccountId(ACCOUNT_ID_2);
         when(accountRepository.readForUpdate(ACCOUNT_ID)).thenReturn(Optional.of(account));
 
         // When

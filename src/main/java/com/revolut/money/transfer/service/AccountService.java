@@ -38,8 +38,8 @@ public class AccountService {
     /**
      * Creates account with zero balance, selected currency and entered account number (for example IBAN)
      *
-     * @param userId the user for whom the account will be created
-     * @param currencyCode currency code for account
+     * @param userId        the user for whom the account will be created
+     * @param currencyCode  currency code for account
      * @param accountNumber account number
      * @return created account
      */
@@ -55,6 +55,7 @@ public class AccountService {
 
     /**
      * Removing account with provided id. Removing account with positive balance is forbidden.
+     *
      * @param accountId account to be removed
      */
     public void deleteAccount(Long accountId) {

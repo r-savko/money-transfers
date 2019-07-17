@@ -18,6 +18,12 @@ class AccountRepositoryTest {
 
     private static final Long USER_ID = 1L;
     private static final Long ACCOUNT_ID = 1L;
+    private static final String CURRENCY_CODE = "USD";
+    private static final Long CURRENCY_ID = 1L;
+    private static final Currency CURRENCY = new Currency().setCurrencyId(CURRENCY_ID).setCurrencyCode(CURRENCY_CODE);
+    private static final Account ACCOUNT = new Account().setUserId(USER_ID).setAccountNumber("Test number")
+            .setCurrency(CURRENCY).setBalance(BigDecimal.TEN).setAccountId(ACCOUNT_ID);
+
     private AccountRepository accountRepository;
     private AccountMapper accountMapper;
 
@@ -31,50 +37,47 @@ class AccountRepositoryTest {
 
     @Test
     void createTest() {
-        Currency currency = new Currency().setCurrencyId(1L).setCurrencyCode("USD");
-        Account account = new Account().setUserId(USER_ID).setAccountNumber("Test_1")
-                .setCurrency(currency).setBalance(BigDecimal.TEN).setAccountId(ACCOUNT_ID);
+        // When
+        accountRepository.create(ACCOUNT);
 
-        accountRepository.create(account);
-
-        verify(accountMapper).create(eq(account));
+        // Then
+        verify(accountMapper).create(eq(ACCOUNT));
     }
 
     @Test
     void readTest() {
-
+        // When
         accountRepository.read(ACCOUNT_ID);
 
+        // Then
         verify(accountMapper).read(ACCOUNT_ID);
-
     }
 
     @Test
     void updateTest() {
-        Currency currency = new Currency().setCurrencyId(1L).setCurrencyCode("USD");
-        Account account = new Account().setUserId(USER_ID).setAccountNumber("Test_1")
-                .setCurrency(currency).setBalance(BigDecimal.TEN).setAccountId(ACCOUNT_ID);
+        // When
+        accountRepository.update(ACCOUNT);
 
-        accountRepository.update(account);
-
-        verify(accountMapper).update(account);
+        // Then
+        verify(accountMapper).update(ACCOUNT);
     }
 
     @Test
     void deleteTest() {
-
+        // When
         accountRepository.delete(ACCOUNT_ID);
 
+        // Then
         verify(accountMapper).delete(ACCOUNT_ID);
-
     }
 
     @Test
     void readForUpdate() {
+        // When
         accountRepository.readForUpdate(ACCOUNT_ID);
 
+        // Then
         verify(accountMapper).readForUpdate(ACCOUNT_ID);
-
     }
 
 }

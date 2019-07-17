@@ -55,7 +55,7 @@ class TransferServiceTest {
         Account accountFrom = new Account().setUserId(USER_ID_FROM).setAccountNumber("Test account number")
                 .setCurrency(CURRENCY_1).setBalance(BigDecimal.TEN).setAccountId(ACCOUNT_ID_FROM);
         Account accountTo = new Account().setUserId(USER_ID_TO).setAccountNumber("Test account number")
-                .setCurrency(CURRENCY_1).setBalance(BigDecimal.TEN).setAccountId(ACCOUNT_ID_FROM);
+                .setCurrency(CURRENCY_1).setBalance(BigDecimal.TEN).setAccountId(ACCOUNT_ID_TO);
         when(accountRepository.readForUpdate(ACCOUNT_ID_FROM)).thenReturn(Optional.of(accountFrom));
         when(accountRepository.readForUpdate(ACCOUNT_ID_TO)).thenReturn(Optional.of(accountTo));
 
@@ -76,7 +76,7 @@ class TransferServiceTest {
         Account accountFrom = new Account().setUserId(USER_ID_FROM).setAccountNumber("Test account number")
                 .setCurrency(CURRENCY_1).setBalance(BigDecimal.TEN).setAccountId(ACCOUNT_ID_FROM);
         Account accountTo = new Account().setUserId(USER_ID_TO).setAccountNumber("Test account number")
-                .setCurrency(CURRENCY_2).setBalance(BigDecimal.TEN).setAccountId(ACCOUNT_ID_FROM);
+                .setCurrency(CURRENCY_2).setBalance(BigDecimal.TEN).setAccountId(ACCOUNT_ID_TO);
         when(accountRepository.readForUpdate(ACCOUNT_ID_FROM)).thenReturn(Optional.of(accountFrom));
         when(accountRepository.readForUpdate(ACCOUNT_ID_TO)).thenReturn(Optional.of(accountTo));
         BigDecimal exchangeRate = BigDecimal.valueOf(1.5);

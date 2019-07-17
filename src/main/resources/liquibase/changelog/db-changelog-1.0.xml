@@ -103,8 +103,8 @@
 
   <changeSet id="Fill exchange rates" author="Roman Savko">
     <sql>
-      insert into ExchangeRate(currency_from, currency_to, rate) values(1, 2, 1.12632);
-      insert into ExchangeRate(currency_from, currency_to, rate) values(2, 1, 0.88775);
+      insert into ExchangeRate(currency_from, currency_to, rate) values(1, 2, 0.88775);
+      insert into ExchangeRate(currency_from, currency_to, rate) values(2, 1, 1.12632);
     </sql>
   </changeSet>
 

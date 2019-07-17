@@ -29,6 +29,10 @@ public class UserResourceTest {
     private static final AccountService accountService = mock(AccountService.class);
 
     private static final Long USER_ID = 1L;
+    private static final Long ACCOUNT_ID = 1L;
+    private static final String CURRENCY_CODE = "USD";
+    private static final Long CURRENCY_ID = 1L;
+    private static final Currency CURRENCY = new Currency().setCurrencyId(CURRENCY_ID).setCurrencyCode(CURRENCY_CODE);
     private static final String ENDPOINT_FIND_USER = "/v1/user/1";
     private static final String ENDPOINT_CREATE_ACCOUNT = "/v1/user/1/account";
     private static final String ENDPOINT_FIND_USER_ACCOUNTS = "/v1/user/1/accounts";
@@ -61,11 +65,10 @@ public class UserResourceTest {
     @Test
     void findUserAccountsTest() {
         // Given
-        Currency currency = new Currency().setCurrencyId(1L).setCurrencyCode("USD");
         Account firstAccount = new Account().setUserId(USER_ID).setAccountNumber("Test_1")
-                .setCurrency(currency).setBalance(new BigDecimal("10")).setAccountId(2L);
+                .setCurrency(CURRENCY).setBalance(BigDecimal.valueOf(10)).setAccountId(ACCOUNT_ID);
         Account secondAccount = new Account().setUserId(USER_ID).setAccountNumber("Test_2")
-                .setCurrency(currency).setBalance(new BigDecimal("10")).setAccountId(2L);
+                .setCurrency(CURRENCY).setBalance(BigDecimal.valueOf(10)).setAccountId(ACCOUNT_ID);
 
         List<Account> accounts = Lists.newArrayList(firstAccount, secondAccount);
 
@@ -89,7 +92,7 @@ public class UserResourceTest {
         // Given
         Currency currency = new Currency().setCurrencyId(1L).setCurrencyCode("USD");
         Account account = new Account().setUserId(USER_ID).setAccountNumber("Test_1")
-                .setCurrency(currency).setBalance(new BigDecimal("10")).setAccountId(2L);
+                .setCurrency(currency).setBalance(BigDecimal.TEN).setAccountId(2L);
 
         when(accountService.createAccount(anyLong(), anyString(), anyString())).thenReturn(account);
 

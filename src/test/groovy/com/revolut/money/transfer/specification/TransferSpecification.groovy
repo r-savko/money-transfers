@@ -43,7 +43,7 @@ class TransferSpecification extends Specification {
         given:
         def accountFrom = 2
         def accountTo = 1
-        def amount = 12.345
+        BigDecimal amount = 12.345
         TransferRequest request = new TransferRequest().setAmount(amount).setFromAccount(accountFrom)
                 .setToAccount(accountTo)
 
@@ -66,8 +66,42 @@ class TransferSpecification extends Specification {
 
         //check source account
         assert accountFromResponse.balance == 1542.655
-        assert accountFromResponse.accountId == accountTo
+        assert accountFromResponse.accountId == accountFrom
+    }
 
+    @Unroll
+    def "Transfer funds different currency"() {
+        given:
+        BigDecimal exchangeRate = 1.12632
+        def accountFrom = 4
+        def accountTo = 1
+        BigDecimal amount = 10
+        TransferRequest request = new TransferRequest().setAmount(amount).setFromAccount(accountFrom)
+                .setToAccount(accountTo)
+
+        def accountToBeforeTransfer = client.target("${apiUrl}/v1/account/${accountTo}").request().get(Account)
+        def accountFromBeforeTransfer = client.target("${apiUrl}/v1/account/${accountFrom}").request().get(Account)
+
+        when:
+        def transaction = client.target("${apiUrl}/v1/transfer").request()
+                .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE), Transaction)
+
+        def accountToResponse = client.target("${apiUrl}/v1/account/${accountTo}").request().get(Account)
+        def accountFromResponse = client.target("${apiUrl}/v1/account/${accountFrom}").request().get(Account)
+
+        then:
+        //check transaction
+        assert transaction.amount == amount
+        assert transaction.type == TransactionType.DEBIT
+        assert transaction.account == accountFrom
+
+        //check destination account
+        assert accountToResponse.balance == accountToBeforeTransfer.balance + amount * exchangeRate
+        assert accountToResponse.accountId == accountTo
+
+        //check source account
+        assert accountFromResponse.balance == accountFromBeforeTransfer.balance - amount
+        assert accountFromResponse.accountId == accountFrom
     }
 
 }

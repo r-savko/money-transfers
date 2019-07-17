@@ -25,6 +25,7 @@ public class TransferResourceTest {
     private static final String ENDPOINT_TRANSFER = "/v1/transfer";
     private static final Long ACCOUNT_ID_FROM = 1L;
     private static final Long ACCOUNT_ID_TO = 2L;
+    private static final Long TRANSACTION_ID = 1L;
 
 
     public static final ResourceExtension extension = ResourceExtension.builder()
@@ -39,7 +40,7 @@ public class TransferResourceTest {
     @Test
     void transferTest() {
         // Given
-        Transaction transaction = new Transaction().setTransactionId(1L).setAmount(BigDecimal.TEN)
+        Transaction transaction = new Transaction().setTransactionId(TRANSACTION_ID).setAmount(BigDecimal.TEN)
                 .setTransferDate(new Date()).setMessage("General transaction info");
 
         TransferRequest request = new TransferRequest().setFromAccount(ACCOUNT_ID_FROM).setToAccount(ACCOUNT_ID_TO)
