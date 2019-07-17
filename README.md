@@ -39,7 +39,7 @@ pre-installed container/server).
 | -----------------------------|-----|-------------
 | /v1/user/{userId}            |GET  | Get user info
 | /v1/user/{userId}/account    |POST | Create new account for user      
-| /v1​/user​/{userId}​/accounts   |GET  | Get accounts for user     
+| /v1​/user​/{userId}​/accounts   |GET  | Get user accounts     
 
 #### Account API
 
@@ -47,7 +47,7 @@ pre-installed container/server).
 | ---------------------------------------|-------|-------------
 | /v1/account/{accountId}                |GET    | Get account info
 | /v1/account/{accountId}                |DELETE | Delete account with all transactions     
-| /v1/account/{accountId}/transactions   |GET    | Get accounts for user 
+| /v1/account/{accountId}/transactions   |GET    | Get account transactions
 
 #### Fund transfer API
 

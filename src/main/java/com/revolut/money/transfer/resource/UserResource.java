@@ -37,7 +37,7 @@ public class UserResource {
 
     @GET
     @Path("/{userId}/accounts")
-    @ApiOperation(value = "Get accounts for user")
+    @ApiOperation(value = "Get user accounts")
     public List<Account> findUserAccounts(@PathParam("userId") @NotNull Long userId) {
         return userService.findUserAccounts(userId);
     }
