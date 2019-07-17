@@ -72,4 +72,6 @@ gradle run
 
 #### Live example
 
-##### http://revolut-backend-test.eu-west-1.elasticbeanstalk.com/swagger
+```
+http://revolut-backend-test.eu-west-1.elasticbeanstalk.com/swagger
+```
