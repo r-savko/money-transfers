@@ -4,7 +4,7 @@ import com.google.common.base.Objects;
 
 public class User {
 
-    private long userId;
+    private Long userId;
     private String name;
     private String surname;
 
